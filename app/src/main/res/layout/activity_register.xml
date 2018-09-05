@@ -11,42 +11,40 @@
     tools:context="com.example.cfeng.healthport.register">
 
     <Button
-        android:text="register"
+        android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/register"
-        android:layout_marginRight="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_alignBaseline="@+id/back"
-        android:layout_alignBottom="@+id/back"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="134dp"
+        android:text="register" />
 
     <Button
         android:id="@+id/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/user"
+        android:layout_width="64dp"
+        android:layout_height="35dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="31dp"
+        android:layout_marginStart="34dp"
         android:text="Back" />
 
     <TextView
         android:id="@+id/user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="145dp"
+        android:layout_alignStart="@+id/email"
+        android:layout_marginTop="149dp"
         android:text="username" />
 
     <TextView
         android:id="@+id/email"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/back"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/back"
+        android:layout_marginTop="240dp"
         android:text="email" />
 
     <TextView
@@ -54,22 +52,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/email"
-        android:layout_marginBottom="167dp"
+        android:layout_alignStart="@+id/user"
+        android:layout_marginBottom="217dp"
         android:text="password" />
 
     <EditText
         android:id="@+id/edit_name"
-        android:layout_width="wrap_content"
+        android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/user"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="36dp"
         android:ems="10"
         android:inputType="none|textPersonName" />
 
     <EditText
         android:id="@+id/edit_email"
-        android:layout_width="wrap_content"
+        android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/email"
         android:layout_alignLeft="@+id/edit_name"
@@ -78,11 +77,20 @@
 
     <EditText
         android:id="@+id/edit_pass"
-        android:layout_width="wrap_content"
+        android:layout_width="199dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/pass"
-        android:layout_alignLeft="@+id/edit_name"
+        android:layout_alignStart="@+id/edit_name"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:text="Registration" />
 
 </RelativeLayout>
