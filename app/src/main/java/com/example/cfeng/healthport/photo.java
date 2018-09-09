@@ -1,7 +1,5 @@
 package com.example.cfeng.healthport;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,7 +11,6 @@ import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +36,7 @@ public class photo extends AppCompatActivity {
 
         selected_image = (ImageView) findViewById(R.id.image);
         choose_photo = (Button) findViewById(R.id.choose);
-        back = (ImageButton) findViewById(R.id.back);
+        back = (ImageButton) findViewById(R.id.Verify);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,27 +2,32 @@ package com.example.cfeng.healthport.Model;
 
 import android.util.Patterns;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Person {
-    private String username;
     private String password;
-    private String email;
+    private CharSequence email;
 
     public Person() {
 
-    };
+    }
 
-    public Person(String username, String password, String email) {
-        this.username = username;
+    public Person(String password, CharSequence email) {
         this.password = password;
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
+    private static boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public CharSequence getEmail() {
+        return email;
+    }
+
+    public void setEmail(CharSequence email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -33,16 +38,8 @@ public class Person {
         this.password = password;
     }
 
-    public CharSequence getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public static boolean validInput(String name, String email, String pass) {
-        if (name.trim().equals("") || pass.trim().equals("") || email.trim().equals("")) {
+    public static boolean validInput(CharSequence email, String pass) {
+        if (pass.trim().equals("") && isEmailValid(email)) {
             throw new IllegalArgumentException("Please enter all fields correctly");
         }
         if (pass.length() < 6) {

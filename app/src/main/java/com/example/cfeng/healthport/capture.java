@@ -42,7 +42,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,7 +80,7 @@ public class capture extends AppCompatActivity {
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
         takePictureButton = (Button) findViewById(R.id.capture);
-        back = (Button) findViewById(R.id.back);
+        back = (Button) findViewById(R.id.Verify);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

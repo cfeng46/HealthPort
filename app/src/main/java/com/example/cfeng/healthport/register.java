@@ -1,26 +1,34 @@
 package com.example.cfeng.healthport;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.cfeng.healthport.Model.Person;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class register extends AppCompatActivity {
     private EditText email_address;
     private EditText Pass;
-    private EditText username;
+    private EditText UserName;
+    private FirebaseAuth mAuth;
+    private  DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +36,14 @@ public class register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-
-        Button back = (Button) findViewById(R.id.back);
-        Button register = (Button) findViewById(R.id.register);
+        ImageButton back = (ImageButton) findViewById(R.id.back);
+        final Button register = (Button) findViewById(R.id.register);
 
         email_address = (EditText) findViewById(R.id.edit_email);
         Pass = (EditText) findViewById(R.id.edit_pass);
-        username = (EditText) findViewById(R.id.edit_name);
-
+        UserName = (EditText) findViewById(R.id.edit_name);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,25 +53,48 @@ public class register extends AppCompatActivity {
             }
         });
 
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = email_address.getText().toString();
-                String pass_word = Pass.getText().toString();
-                String name = username.getText().toString();
-                try {
-                    if (Person.validInput(name, email, pass_word)) {
-                        addNewUser(name, email, pass_word);
+                final String user_name = UserName.getText().toString().trim();
+                final String email = email_address.getText().toString().trim();
+                final String pass_word = Pass.getText().toString().trim();
+                mAuth.createUserWithEmailAndPassword(email, pass_word).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            DatabaseReference current_user_db = mDatabase.child(user_id);
+                            current_user_db.child("UserName").setValue(user_name);
+                            Toast.makeText(register.this, "User account is created", Toast.LENGTH_SHORT).show();
+                            Intent regIntent = new Intent(register.this, MainActivity.class);
+                            startActivity(regIntent);
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                Toast.makeText(register.this, e.getReason(), Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(register.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(register.this, "user exist", Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
-                } catch (IllegalArgumentException e) {
-                    Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                });
             }
         });
     }
 
-    private void addNewUser(final String name, final String email, final String pin) {
-        final Person user = new Person(name, pin, email);
+
+
+
+
+    /*private void addNewUser(final String email, final String pin) {
+        final Person user = new Person(pin, email);
         final DatabaseReference healthport = FirebaseDatabase.getInstance().getReference("Users");
         healthport.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -83,5 +114,5 @@ public class register extends AppCompatActivity {
                 Toast.makeText(register.this, "Database Error", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    }*/
 }
