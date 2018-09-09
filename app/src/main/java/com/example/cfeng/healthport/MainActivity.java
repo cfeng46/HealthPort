@@ -11,18 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cfeng.healthport.Model.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Button register = (Button) findViewById(R.id.register);
 
 
-        email = (EditText) findViewById(R.id.email);
+        email = (EditText) findViewById(R.id.new_email);
         password = (EditText) findViewById(R.id.PassWord);
         TextView forget= (TextView) findViewById(R.id.forget_pass);
         mAuth = FirebaseAuth.getInstance();
@@ -60,7 +59,15 @@ public class MainActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 checkUserExistence();
                             } else {
-                                Toast.makeText(MainActivity.this, "user is not found", Toast.LENGTH_SHORT).show();
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthInvalidUserException e) {
+                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     });
@@ -96,7 +103,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(user_id)) {
-                    startActivity(new Intent(MainActivity.this, verification.class));
+                    if (mAuth.getCurrentUser().isEmailVerified()) {
+                        startActivity(new Intent(MainActivity.this, main_page.class));
+                    } else {
+                        startActivity(new Intent(MainActivity.this, verification.class));
+                    }
                 } else {
                     Toast.makeText(MainActivity.this, "User is not registered", Toast.LENGTH_SHORT).show();
                 }

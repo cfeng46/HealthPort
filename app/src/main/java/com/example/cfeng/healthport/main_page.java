@@ -20,6 +20,14 @@ public class main_page extends AppCompatActivity {
         Button share = (Button) findViewById(R.id.share);
         Button contacts = (Button) findViewById(R.id.contacts);
         Button inbox = (Button) findViewById(R.id.inbox);
+        Button setting = (Button) findViewById(R.id.settings);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(main_page.this, settings.class));
+            }
+        });
 
         signout.setOnClickListener(new View.OnClickListener() {
             @Override

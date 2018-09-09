@@ -31,7 +31,10 @@
         <activity android:name=".forget_password" />
         <activity android:name=".capture" />
         <activity android:name=".photo" />
-        <activity android:name=".verification"></activity>
+        <activity android:name=".verification" />
+        <activity android:name=".settings" />
+        <activity android:name=".change_settings" />
+        <activity android:name=".password_update"></activity>
     </application>
 
 </manifest>

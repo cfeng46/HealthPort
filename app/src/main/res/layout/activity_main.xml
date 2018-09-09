@@ -44,7 +44,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/new_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/email_address"

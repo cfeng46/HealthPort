@@ -76,9 +76,9 @@ public class register extends AppCompatActivity {
                             } catch (FirebaseAuthWeakPasswordException e) {
                                 Toast.makeText(register.this, e.getReason(), Toast.LENGTH_SHORT).show();
                             } catch (FirebaseAuthInvalidCredentialsException e) {
-                                Toast.makeText(register.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             } catch (FirebaseAuthUserCollisionException e) {
-                                Toast.makeText(register.this, "user exist", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
