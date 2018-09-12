@@ -10,88 +10,52 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cfeng.healthport.main_page">
 
-    <Button
-        android:text="Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/settings" />
+
 
     <Button
-        android:text="Documents"
-        android:layout_width="wrap_content"
+        android:id="@+id/documents"
+        android:layout_width="133dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/profile"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="37dp"
-        android:layout_marginEnd="37dp"
-        android:id="@+id/documents" />
-
-    <Button
-        android:text="share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile"
-        android:layout_alignLeft="@+id/profile"
-        android:layout_alignStart="@+id/profile"
-        android:layout_marginTop="56dp"
-        android:id="@+id/share"
-        android:layout_alignRight="@+id/profile"
-        android:layout_alignEnd="@+id/profile" />
-
-    <Button
-        android:text="contacts"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/share"
-        android:layout_alignLeft="@+id/share"
-        android:layout_alignStart="@+id/share"
-        android:layout_marginTop="58dp"
-        android:id="@+id/contacts"
-        android:layout_width="wrap_content"
-        android:layout_alignRight="@+id/share"
-        android:layout_alignEnd="@+id/share" />
-
-    <Button
-        android:text="inbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/contacts"
-        android:id="@+id/inbox"
-        android:layout_alignRight="@+id/uploads"
-        android:layout_alignEnd="@+id/uploads"
-        android:layout_alignLeft="@+id/uploads"
-        android:layout_alignStart="@+id/uploads" />
-
-    <Button
-        android:text="uploads"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/uploads"
-        android:layout_alignBaseline="@+id/share"
-        android:layout_alignBottom="@+id/share"
-        android:layout_alignRight="@+id/documents"
-        android:layout_alignEnd="@+id/documents"
-        android:layout_alignLeft="@+id/documents"
-        android:layout_alignStart="@+id/documents" />
-
-    <Button
-        android:text="    profile    "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="43dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="95dp"
-        android:id="@+id/profile"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="88dp"
+        android:drawableTop="@drawable/doc"
+        android:gravity="bottom|center"
+        android:text="@string/documents" />
 
     <Button
-        android:text="sign out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signout"
+        android:id="@+id/contacts"
+        android:layout_width="133dp"
+        android:layout_height="120dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="34dp" />
+        android:layout_marginBottom="55dp"
+        android:drawableTop="@drawable/contacts"
+        android:gravity="bottom|center"
+        android:text="@string/contacts"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/profile"
+        android:layout_width="133dp"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="185dp"
+        android:drawableTop="@drawable/profile"
+        android:gravity="bottom|center"
+        android:text="@string/profiles"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/settings"
+        android:gravity="bottom|center"
+        android:textAlignment="center" />
+
+
 </RelativeLayout>

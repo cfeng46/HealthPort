@@ -25,9 +25,7 @@
         <activity android:name=".profile" />
         <activity android:name=".uploads" />
         <activity android:name=".documents" />
-        <activity android:name=".share" />
         <activity android:name=".contacts" />
-        <activity android:name=".inbox" />
         <activity android:name=".forget_password" />
         <activity android:name=".capture" />
         <activity android:name=".photo" />

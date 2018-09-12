@@ -11,6 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cfeng.healthport.register">
 
+
     <TextView
         android:id="@+id/user"
         android:layout_width="wrap_content"
@@ -18,52 +19,53 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/pass"
         android:layout_marginTop="163dp"
-        android:text="username" />
+        android:text="@string/username" />
 
     <TextView
         android:id="@+id/email_address"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/Verify"
         android:layout_alignParentTop="true"
         android:layout_marginTop="259dp"
-        android:text="email" />
+        android:text="@string/email" />
 
     <TextView
         android:id="@+id/pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/email_address"
+        android:layout_alignStart="@+id/email_address"
         android:layout_marginBottom="167dp"
-        android:text="password" />
+        android:text="@string/password" />
 
     <EditText
         android:id="@+id/edit_name"
-        android:layout_width="wrap_content"
+        android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/user"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="36dp"
         android:ems="10"
-        android:inputType="none|textPersonName" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edit_email"
-        android:layout_width="wrap_content"
+        android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/edit_pass"
         android:layout_centerVertical="true"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/edit_pass"
-        android:layout_width="wrap_content"
+        android:layout_width="199dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/pass"
-        android:layout_alignLeft="@+id/edit_name"
+        android:layout_alignStart="@+id/edit_name"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPassword" />
+
 
     <Button
         android:id="@+id/register"
@@ -72,7 +74,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="71dp"
-        android:text="REGISTER" />
+        android:text="@string/register" />
 
     <ImageButton
         android:id="@+id/back"
@@ -82,5 +84,15 @@
         android:layout_alignParentTop="true"
         android:contentDescription="@android:string/VideoView_error_text_invalid_progressive_playback"
         app:srcCompat="?attr/actionModeCloseDrawable" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:text="@string/registration" />
+
 
 </RelativeLayout>

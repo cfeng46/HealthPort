@@ -15,11 +15,7 @@ public class main_page extends AppCompatActivity {
 
         Button signout = (Button) findViewById(R.id.signout);
         final Button profile = (Button) findViewById(R.id.profile);
-        Button documents = (Button) findViewById(R.id.documents);
-        Button uploads = (Button) findViewById(R.id.uploads);
-        Button share = (Button) findViewById(R.id.share);
-        Button contacts = (Button) findViewById(R.id.contacts);
-        Button inbox = (Button) findViewById(R.id.inbox);
+        Button uploads = (Button) findViewById(R.id.activity_uploads);
         Button setting = (Button) findViewById(R.id.settings);
 
         setting.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +32,7 @@ public class main_page extends AppCompatActivity {
                 finish();
             }
         });
+
 
         uploads.setOnClickListener(new View.OnClickListener() {
             @Override

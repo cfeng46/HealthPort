@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
         android:textSize="32sp"
-        android:text="Settings" />
+        android:text="@string/settings" />
 
     <TextView
         android:id="@+id/email_name"
@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/new_email"
         android:layout_marginTop="211dp"
-        android:text="New email:"
+        android:text="@string/new_email"
         android:textSize="16sp" />
 
 
@@ -38,7 +38,9 @@
         android:layout_alignEnd="@+id/new_email"
         android:layout_alignParentBottom="true"
         android:clickable="true"
-        app:srcCompat="@drawable/green_check" />
+        app:srcCompat="@drawable/green_check"
+        android:contentDescription="@string/todo"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/good"
@@ -47,9 +49,10 @@
         android:layout_alignTop="@+id/good_icon"
         android:layout_toEndOf="@+id/settingsTitle"
         android:clickable="true"
-        android:text="Good?"
+        android:text="@string/good"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/cancelText"
@@ -58,8 +61,9 @@
         android:layout_alignTop="@+id/cancelX"
         android:layout_marginStart="60dp"
         android:clickable="true"
-        android:text="Cancel"
-        android:textSize="18sp" />
+        android:text="@string/cancel"
+        android:textSize="18sp"
+        android:focusable="true" />
 
     <ImageView
         android:id="@+id/cancelX"
@@ -68,7 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
-        app:srcCompat="@drawable/cancel_x" />
+        app:srcCompat="@drawable/cancel_x"
+        android:contentDescription="@string/todo"
+        android:focusable="true" />
 
     <EditText
         android:id="@+id/new_email"
@@ -87,7 +93,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/email_name"
         android:layout_marginTop="117dp"
-        android:text="Old Email:" />
+        android:text="@string/old_email" />
 
     <EditText
         android:id="@+id/old_email"
@@ -106,7 +112,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/email_name"
         android:layout_marginBottom="218dp"
-        android:text="Password" />
+        android:text="@string/password" />
 
     <EditText
         android:id="@+id/password"
