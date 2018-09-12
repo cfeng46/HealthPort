@@ -15,7 +15,7 @@ public class main_page extends AppCompatActivity {
 
         Button signout = (Button) findViewById(R.id.signout);
         final Button profile = (Button) findViewById(R.id.profile);
-        Button uploads = (Button) findViewById(R.id.activity_uploads);
+        Button docs = (Button) findViewById(R.id.documents);
         Button setting = (Button) findViewById(R.id.settings);
 
         setting.setOnClickListener(new View.OnClickListener() {
@@ -34,10 +34,10 @@ public class main_page extends AppCompatActivity {
         });
 
 
-        uploads.setOnClickListener(new View.OnClickListener() {
+        docs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(main_page.this, uploads.class));
+                startActivity(new Intent(main_page.this, documents.class));
                 finish();
             }
         });
