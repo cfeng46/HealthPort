@@ -16,8 +16,10 @@ public class settings extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Button update_email = (Button) findViewById(R.id.email_update);
-        Button update_pass = (Button) findViewById(R.id.pass_update);
+        ImageView update_email = (ImageView) findViewById(R.id.change_email_icon);
+        TextView update_email_text = (TextView) findViewById(R.id.change_email);
+        ImageView update_pass = (ImageView) findViewById(R.id.change_password_icon);
+        TextView update_pass_text = (TextView) findViewById(R.id.change_password);
         ImageView back = (ImageView) findViewById(R.id.backArrow);
 
         update_email.setOnClickListener(new View.OnClickListener() {
@@ -27,7 +29,21 @@ public class settings extends AppCompatActivity{
             }
         });
 
+        update_email_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(settings.this, change_settings.class));
+            }
+        });
+
         update_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(settings.this, password_update.class));
+            }
+        });
+
+        update_pass_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(settings.this, password_update.class));

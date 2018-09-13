@@ -1,102 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.cfeng.healthport.MainActivity">
 
     <ImageView
-        android:id="@+id/im1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
+        android:id="@+id/imageView"
+        android:layout_width="330dp"
+        android:layout_height="99dp"
         android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon" />
-
-    <TextView
-        android:text="Pass_Word"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/password"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_below="@+id/email_address"
-        android:layout_alignLeft="@+id/email_address"
-        android:layout_alignStart="@+id/email_address"
-        android:layout_marginTop="50dp"
-        android:layout_alignRight="@+id/email_address"
-        android:layout_alignEnd="@+id/email_address" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/email_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="27dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="154dp"
-        android:text="Email_address"
+        android:layout_marginTop="225dp"
+        android:layout_toStartOf="@+id/forget_pass"
+        android:layout_marginRight="30dp"
+        android:text="@string/email"
         android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/email_address"
+        android:layout_alignTop="@id/email_address"
+        android:layout_marginTop="70dp"
+        android:text="@string/password"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
 
     <EditText
         android:id="@+id/new_email"
-        android:layout_width="wrap_content"
+        android:layout_width="188dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/email_address"
-        android:layout_alignBottom="@+id/email_address"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@+id/email_address"
+        android:layout_marginLeft="20dp"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
         android:id="@+id/PassWord"
-        android:textColor="@android:color/black"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/password"
-        android:layout_alignBottom="@+id/password"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/new_email"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
 
-    <Button
-        android:text="Register"
+
+    <ImageView
+        android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/login"
-        android:layout_alignLeft="@+id/password"
-        android:layout_alignStart="@+id/password"
-        android:layout_marginLeft="9dp"
-        android:layout_marginStart="9dp"
-        android:id="@+id/register"/>
+        android:layout_alignBottom="@+id/newUserText"
+        android:layout_toEndOf="@+id/newUserText"
+        android:clickable="true"
+        android:layout_marginLeft="10dp"
+        app:srcCompat="@drawable/plus_button" />
 
     <Button
-        android:text="Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="47dp"
-        android:id="@+id/login"
-        android:layout_below="@+id/PassWord"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    android:id="@+id/login"
+    android:layout_alignTop="@id/PassWord"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="80dp"
+    android:text="Login" />
 
     <TextView
         android:id="@+id/forget_pass"
+        android:clickable="true"
+        android:layout_alignTop="@id/login"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Forgot your password?"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+
+    <TextView
+        android:id="@+id/newUserText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp"
-        android:text="Forget your password?"
-        android:textColor="@android:color/black" />
+        android:layout_marginBottom="34dp"
+        android:clickable="true"
+        android:text="Are you new?"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
 </RelativeLayout>

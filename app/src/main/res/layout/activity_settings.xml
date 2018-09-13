@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="65dp"
         android:textSize="32sp"
         android:text="@string/settings" />
 
@@ -29,6 +29,7 @@
         android:layout_marginStart="60dp"
         android:text="@string/backText"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:focusable="true" />
 
     <ImageView
@@ -36,30 +37,101 @@
         android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="490dp"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
         app:srcCompat="@drawable/back_arrow"
         android:contentDescription="@string/todo"
         android:focusable="true" />
 
-    <Button
-        android:id="@+id/email_update"
-        android:layout_width="282dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="169dp"
-        android:text="@string/update_email" />
 
-    <Button
-        android:id="@+id/pass_update"
-        android:layout_width="279dp"
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/email_update"
-        android:layout_marginBottom="213dp"
-        android:text="@string/update_password" />
+        android:layout_alignTop="@+id/settingsTitle"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="60dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/email"/>
+
+    <TextView
+        android:id="@+id/email_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/email"
+        android:layout_alignStart="@+id/password_value"
+        android:textSize="18sp"
+        android:text="@string/common_open_on_phone"/>
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/change_email"
+        android:layout_marginTop="90dp"
+        android:layout_alignStart="@+id/email"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/password"/>
+
+    <TextView
+        android:id="@+id/password_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/password"
+        android:layout_toEndOf="@+id/password"
+        android:layout_marginLeft="30dp"
+        android:textSize="18sp"
+        android:text="@string/common_open_on_phone"/>
+
+    <ImageView
+        android:id="@+id/change_email_icon"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/change_email"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/email"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/pencil"/>
+
+    <TextView
+        android:id="@+id/change_email"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/change_email_icon"
+        android:layout_marginLeft="115dp"
+        android:text="Change?"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        />
+
+    <ImageView
+        android:id="@+id/change_password_icon"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/change_password"
+        android:layout_marginLeft="10dp"
+        android:layout_alignTop="@+id/password"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/pencil"/>
+
+    <TextView
+        android:id="@+id/change_password"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/change_password_icon"
+        android:layout_marginLeft="115dp"
+        android:text="Change?"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        />
+
 
 
 </RelativeLayout>

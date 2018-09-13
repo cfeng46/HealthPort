@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cfeng.healthport.Model.Person;
@@ -36,7 +37,8 @@ public class register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-        ImageButton back = (ImageButton) findViewById(R.id.back);
+        ImageView back = (ImageView) findViewById(R.id.backArrow);
+        TextView backText = (TextView) findViewById(R.id.backText);
         final Button register = (Button) findViewById(R.id.register);
 
         email_address = (EditText) findViewById(R.id.edit_email);
@@ -46,6 +48,14 @@ public class register extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
         back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(register.this, MainActivity.class));
+                finish();
+            }
+        });
+
+        backText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(register.this, MainActivity.class));

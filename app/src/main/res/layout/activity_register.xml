@@ -17,24 +17,28 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/pass"
-        android:layout_marginTop="163dp"
+        android:layout_marginTop="170dp"
+        android:textSize="16sp"
         android:text="@string/username" />
 
     <TextView
         android:id="@+id/email_address"
-        android:layout_width="65dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="259dp"
+        android:layout_alignTop="@+id/user"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="40dp"
+        android:textSize="16sp"
         android:text="@string/email" />
 
     <TextView
         android:id="@+id/pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/email_address"
         android:layout_alignStart="@+id/email_address"
-        android:layout_marginBottom="167dp"
+        android:layout_marginTop="85dp"
+        android:textSize="16sp"
         android:text="@string/password" />
 
     <EditText
@@ -52,6 +56,7 @@
         android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/edit_pass"
+        android:layout_alignBaseline="@+id/email_address"
         android:layout_centerVertical="true"
         android:ems="10"
         android:inputType="textEmailAddress" />
@@ -72,26 +77,52 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="71dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="18sp"
         android:text="@string/register" />
 
-    <ImageButton
+    <!--<ImageButton
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@android:string/VideoView_error_text_invalid_progressive_playback"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:srcCompat="?attr/actionModeCloseDrawable" />-->
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="60dp"
+        android:textSize="28sp"
         android:text="@string/registration" />
+
+    <TextView
+        android:id="@+id/backText"
+        android:clickable="true"
+        android:onClick="clickBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/backArrow"
+        android:layout_toEndOf="@+id/backArrow"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:text="Back"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/backArrow"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        app:srcCompat="@drawable/back_arrow" />
+
 
 
 </RelativeLayout>

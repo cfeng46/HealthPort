@@ -16,53 +16,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="60dp"
         android:textSize="32sp"
         android:text="@string/settings" />
-
-    <TextView
-        android:id="@+id/email_name"
-        android:layout_width="132dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/new_email"
-        android:layout_marginTop="211dp"
-        android:text="@string/new_email"
-        android:textSize="16sp" />
 
 
     <ImageView
         android:id="@+id/good_icon"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/new_email"
+        android:layout_alignStart="@+id/settingsTitle"
+        android:layout_marginLeft="20dp"
         android:layout_alignParentBottom="true"
-        android:clickable="true"
+        android:layout_marginBottom="65dp"
         app:srcCompat="@drawable/green_check"
         android:contentDescription="@string/todo"
-        android:focusable="true" />
+        android:focusable="true"/>
 
     <TextView
         android:id="@+id/good"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/good_icon"
-        android:layout_toEndOf="@+id/settingsTitle"
-        android:clickable="true"
+        android:layout_alignBottom="@+id/good_icon"
+        android:layout_toEndOf="@+id/good_icon"
+        android:layout_marginLeft="10dp"
         android:text="@string/good"
-        android:textSize="20sp"
         android:textStyle="bold"
-        android:focusable="true" />
+        android:textSize="20sp"
+        android:focusable="true"/>
 
     <TextView
         android:id="@+id/cancelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/cancelX"
-        android:layout_marginStart="60dp"
+        android:layout_toEndOf="@+id/cancelX"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
         android:clickable="true"
         android:text="@string/cancel"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:focusable="true" />
 
     <ImageView
@@ -70,38 +66,49 @@
         android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
         app:srcCompat="@drawable/cancel_x"
         android:contentDescription="@string/todo"
         android:focusable="true" />
 
+
+    <TextView
+        android:id="@+id/email_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/old"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="40dp"
+        android:text="@string/new_email"
+        android:textSize="16sp" />
+
     <EditText
         android:id="@+id/new_email"
-        android:layout_width="319dp"
+        android:layout_width="196dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="228dp"
+        android:layout_alignStart="@+id/old_email"
+        android:layout_alignBaseline="@+id/email_name"
         android:ems="10"
         android:inputType="textEmailAddress" />
 
     <TextView
         android:id="@+id/old"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
         android:layout_alignStart="@+id/email_name"
-        android:layout_marginTop="117dp"
+        android:textSize="16sp"
         android:text="@string/old_email" />
 
     <EditText
         android:id="@+id/old_email"
-        android:layout_width="316dp"
+        android:layout_width="195dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/settingsTitle"
-        android:layout_below="@+id/old"
-        android:layout_marginEnd="-100dp"
+        android:layout_alignBaseline="@+id/old"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="36dp"
         android:ems="10"
         android:inputType="textEmailAddress" />
 
@@ -109,19 +116,18 @@
         android:id="@+id/pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/email_name"
+        android:layout_marginTop="85dp"
         android:layout_alignStart="@+id/email_name"
-        android:layout_marginBottom="218dp"
+        android:textSize="16sp"
         android:text="@string/password" />
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="316dp"
+        android:layout_width="199dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/settingsTitle"
-        android:layout_below="@+id/pass"
-        android:layout_marginEnd="-100dp"
-        android:layout_marginTop="-218dp"
+        android:layout_alignBaseline="@+id/pass"
+        android:layout_alignStart="@+id/old_email"
         android:ems="10"
         android:inputType="textPassword" />
 

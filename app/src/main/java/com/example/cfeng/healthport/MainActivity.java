@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button login = (Button) findViewById(R.id.login);
-        Button register = (Button) findViewById(R.id.register);
+        ImageView register = (ImageView) findViewById(R.id.register);
+        TextView registerText = (TextView) findViewById(R.id.newUserText);
 
 
         email = (EditText) findViewById(R.id.new_email);
@@ -78,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, register.class));
+                finish();
+            }
+        });
+
+        registerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, register.class));
