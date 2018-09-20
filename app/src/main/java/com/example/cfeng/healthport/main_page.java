@@ -17,6 +17,7 @@ public class main_page extends AppCompatActivity {
         final Button profile = (Button) findViewById(R.id.profile);
         Button docs = (Button) findViewById(R.id.documents);
         Button setting = (Button) findViewById(R.id.settings);
+        Button contacts = (Button) findViewById(R.id.contacts);
 
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,13 @@ public class main_page extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(main_page.this, profile.class));
                 finish();
+            }
+        });
+
+        contacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(main_page.this, contacts.class));
             }
         });
     }
