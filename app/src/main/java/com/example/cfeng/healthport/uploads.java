@@ -41,7 +41,7 @@ public class uploads extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(uploads.this, main_page.class));
+                startActivity(new Intent(uploads.this, home.class));
                 finish();
             }
         });

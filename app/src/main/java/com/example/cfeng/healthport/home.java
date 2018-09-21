@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class main_page extends AppCompatActivity {
+public class home extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page);
+        setContentView(R.layout.activity_home);
 
         Button signout = (Button) findViewById(R.id.signout);
         final Button profile = (Button) findViewById(R.id.profile);
@@ -22,14 +22,14 @@ public class main_page extends AppCompatActivity {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(main_page.this, settings.class));
+                startActivity(new Intent(home.this, settings.class));
             }
         });
 
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(main_page.this, MainActivity.class));
+                startActivity(new Intent(home.this, login.class));
                 finish();
             }
         });
@@ -38,7 +38,7 @@ public class main_page extends AppCompatActivity {
         docs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(main_page.this, documents.class));
+                startActivity(new Intent(home.this, documents.class));
                 finish();
             }
         });
@@ -46,7 +46,7 @@ public class main_page extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(main_page.this, profile.class));
+                startActivity(new Intent(home.this, profile.class));
                 finish();
             }
         });

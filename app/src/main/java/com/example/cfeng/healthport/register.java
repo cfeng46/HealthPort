@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cfeng.healthport.Model.Person;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -50,7 +49,7 @@ public class register extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(register.this, MainActivity.class));
+                startActivity(new Intent(register.this, login.class));
                 finish();
             }
         });
@@ -58,7 +57,7 @@ public class register extends AppCompatActivity {
         backText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(register.this, MainActivity.class));
+                startActivity(new Intent(register.this, login.class));
                 finish();
             }
         });
@@ -78,7 +77,7 @@ public class register extends AppCompatActivity {
                             DatabaseReference current_user_db = mDatabase.child(user_id);
                             current_user_db.child("UserName").setValue(user_name);
                             Toast.makeText(register.this, "User account is created", Toast.LENGTH_SHORT).show();
-                            Intent regIntent = new Intent(register.this, MainActivity.class);
+                            Intent regIntent = new Intent(register.this, login.class);
                             startActivity(regIntent);
                         } else {
                             try {
@@ -114,7 +113,7 @@ public class register extends AppCompatActivity {
                 } else {
                     healthport.child(user.getUsername()).setValue(user);
                     Toast.makeText(register.this, "new user created!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(register.this, MainActivity.class));
+                    startActivity(new Intent(register.this, login.class));
                     finish();
                 }
             }

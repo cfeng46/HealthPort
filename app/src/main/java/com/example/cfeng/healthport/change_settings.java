@@ -18,8 +18,6 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.w3c.dom.Text;
-
 public class change_settings extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -59,7 +57,7 @@ public class change_settings extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(change_settings.this, "email updated", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(change_settings.this, MainActivity.class));
+                                            startActivity(new Intent(change_settings.this, login.class));
                                         } else {
                                             Toast.makeText(change_settings.this, "failed to update", Toast.LENGTH_SHORT).show();
                                         }
@@ -96,7 +94,7 @@ public class change_settings extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(change_settings.this, "email updated", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(change_settings.this, MainActivity.class));
+                                            startActivity(new Intent(change_settings.this, login.class));
                                         } else {
                                             Toast.makeText(change_settings.this, "failed to update", Toast.LENGTH_SHORT).show();
                                         }

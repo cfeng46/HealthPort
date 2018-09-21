@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class login extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         Button login = (Button) findViewById(R.id.login);
         ImageView register = (ImageView) findViewById(R.id.register);
@@ -64,17 +64,17 @@ public class MainActivity extends AppCompatActivity {
                                 try {
                                     throw task.getException();
                                 } catch (FirebaseAuthInvalidUserException e) {
-                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(com.example.cfeng.healthport.login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(com.example.cfeng.healthport.login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(com.example.cfeng.healthport.login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
                     });
                 } else {
-                    Toast.makeText(MainActivity.this, "Fill all fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(com.example.cfeng.healthport.login.this, "Fill all fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, register.class));
+                startActivity(new Intent(com.example.cfeng.healthport.login.this, register.class));
                 finish();
             }
         });
@@ -90,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
         registerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, register.class));
+                startActivity(new Intent(com.example.cfeng.healthport.login.this, register.class));
                 finish();
             }
         });
 
         forget.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, forget_password.class));
+                startActivity(new Intent(com.example.cfeng.healthport.login.this, forget_password.class));
             }
         });
     };
@@ -114,18 +114,18 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(user_id)) {
                     if (mAuth.getCurrentUser().isEmailVerified()) {
-                        startActivity(new Intent(MainActivity.this, main_page.class));
+                        startActivity(new Intent(login.this, home.class));
                     } else {
-                        startActivity(new Intent(MainActivity.this, verification.class));
+                        startActivity(new Intent(login.this, verification.class));
                     }
                 } else {
-                    Toast.makeText(MainActivity.this, "User is not registered", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(login.this, "User is not registered", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(MainActivity.this, "Database Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(login.this, "Database Error", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -138,21 +138,21 @@ public class MainActivity extends AppCompatActivity {
 //                    if (!name.isEmpty()) {
 //                        Person current = dataSnapshot.child(name).getValue(Person.class);
 //                        if (current.getPassword().equals(pass)) {
-//                            Toast.makeText(MainActivity.this, "login success", Toast.LENGTH_SHORT).show();
-//                            startActivity(new Intent(MainActivity.this, main_page.class));
+//                            Toast.makeText(login.this, "login success", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(login.this, home.class));
 //                            finish();
 //                        } else {
-//                            Toast.makeText(MainActivity.this, "password is incorrect", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(login.this, "password is incorrect", Toast.LENGTH_LONG).show();
 //                        }
 //                    } else {
-//                        Toast.makeText(MainActivity.this, "username is not registered", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(login.this, "username is not registered", Toast.LENGTH_LONG).show();
 //                    }
 //                }
 //            }
 //
 //            @Override
 //            public void onCancelled(DatabaseError databaseError) {
-//                Toast.makeText(MainActivity.this, "Database Error", Toast.LENGTH_LONG).show();
+//                Toast.makeText(login.this, "Database Error", Toast.LENGTH_LONG).show();
 //            }
 //        });
 //    }
