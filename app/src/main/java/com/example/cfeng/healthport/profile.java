@@ -34,7 +34,7 @@ public class profile extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(profile.this, main_page.class));
+                startActivity(new Intent(profile.this, home.class));
             }
         });
         add_file.setOnClickListener(new View.OnClickListener() {

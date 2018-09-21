@@ -1,7 +1,6 @@
 package com.example.cfeng.healthport;
 
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,9 +44,9 @@ public class verification extends AppCompatActivity {
                     mDatabase.child(user_id).removeValue();
                     user.delete();
                     Toast.makeText(getApplicationContext(), "Failed to Authenticate", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(verification.this, MainActivity.class));
+                    startActivity(new Intent(verification.this, login.class));
                 } else {
-                    startActivity(new Intent(verification.this, MainActivity.class));
+                    startActivity(new Intent(verification.this, login.class));
                 }
             }
         });
@@ -61,7 +60,7 @@ public class verification extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         status.setText("User Email: " + user.getEmail() + "(Verfied: " + user.isEmailVerified() + ")");
                         if (user.isEmailVerified()) {
-                            startActivity(new Intent(verification.this, main_page.class));
+                            startActivity(new Intent(verification.this, home.class));
                         } else {
                             if (attempt == 3) {
                                 user = mAuth.getCurrentUser();
@@ -69,7 +68,7 @@ public class verification extends AppCompatActivity {
                                 mDatabase.child(user_id).removeValue();
                                 user.delete();
                                 Toast.makeText(getApplicationContext(), "Failed to Authenticate", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(verification.this, MainActivity.class));
+                                startActivity(new Intent(verification.this, login.class));
                             }
                         }
                     }
@@ -102,7 +101,7 @@ public class verification extends AppCompatActivity {
 //            status.setText("User Email: " + user.getEmail() + "(Verfied: " + user.isEmailVerified() + ")");
 //        } else {
 //            Toast.makeText(verification.this, "signed out", Toast.LENGTH_SHORT).show();
-//            startActivity(new Intent(verification.this, MainActivity.class));
+//            startActivity(new Intent(verification.this, login.class));
 //        }
 //    }
 }

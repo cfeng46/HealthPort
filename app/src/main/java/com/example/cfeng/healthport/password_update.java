@@ -1,7 +1,6 @@
 package com.example.cfeng.healthport;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,7 +54,7 @@ public class password_update extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(password_update.this, "password updated", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(password_update.this, MainActivity.class));
+                                            startActivity(new Intent(password_update.this, login.class));
                                         } else {
                                             Toast.makeText(password_update.this, "failed to update", Toast.LENGTH_SHORT).show();
                                         }
@@ -91,7 +90,7 @@ public class password_update extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(password_update.this, "password updated", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(password_update.this, MainActivity.class));
+                                            startActivity(new Intent(password_update.this, login.class));
                                         } else {
                                             Toast.makeText(password_update.this, "failed to update", Toast.LENGTH_SHORT).show();
                                         }
