@@ -34,6 +34,8 @@ public class add_contacts extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
+
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,9 +44,8 @@ public class add_contacts extends AppCompatActivity {
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = mDatabase.child(user_id);
                 current_user_db.child("contacts").child(newName).setValue(faxNumber);
+                startActivity(new Intent(add_contacts.this, contacts.class));
                 Toast.makeText(add_contacts.this, "New Contacts Added", Toast.LENGTH_SHORT).show();
-                Intent regIntent = new Intent(add_contacts.this, contacts.class);
-                startActivity(regIntent);
             }
         });
 

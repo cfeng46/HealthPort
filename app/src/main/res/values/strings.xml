@@ -22,9 +22,11 @@
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
     <string name="choose_photo">Choose photo</string>
-    <string name="backText">Back</string>
+    <string name="backText">BACK</string>
     <string name="update_email">Update Email</string>
     <string name="update_password">Update Password</string>
     <string name="upload_from_picture">Upload from picture</string>
     <string name="uploads_from_photos">Uploads from photos</string>
-=</resources>
+    <string name="add">ADD</string>
+    <string name="searchContact">Search Contact</string>
+</resources>

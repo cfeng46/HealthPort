@@ -103,14 +103,13 @@
     <TextView
         android:id="@+id/backText"
         android:clickable="true"
-        android:onClick="clickBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/backArrow"
         android:layout_toEndOf="@+id/backArrow"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:text="Back"
+        android:text="@string/backText"
         android:textStyle="bold"
         android:textSize="18sp" />
 
