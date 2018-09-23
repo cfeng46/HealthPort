@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/*public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<String> names;
 
     // Provide a reference to the views for each data item
@@ -32,7 +32,7 @@ import java.util.ArrayList;
                                                      int viewType) {
         // create a new view
         TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_text_view, parent, false);
+                .inflate(R.layout.contact_item_view, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -49,4 +49,4 @@ import java.util.ArrayList;
     public int getItemCount() {
         return names.size();
     }
-}*/
+}

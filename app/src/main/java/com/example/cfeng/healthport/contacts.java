@@ -48,11 +48,7 @@ public class contacts extends AppCompatActivity {
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
 
-        rcvListMessage = findViewById(R.id.contactList);
-        rcvListMessage.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        rcvListMessage.setLayoutManager(layoutManager);
-
+        //Get all contact names
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
@@ -69,6 +65,14 @@ public class contacts extends AppCompatActivity {
                         //handle databaseError
                     }
                 });
+
+        //Set up receiver list view
+        rcvListMessage = findViewById(R.id.contactList);
+        rcvListMessage.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        rcvListMessage.setLayoutManager(layoutManager);
+        mAdapter = new MyAdapter(mNames);
+        rcvListMessage.setAdapter(mAdapter);
 
         addText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +116,7 @@ public class contacts extends AppCompatActivity {
         for (DataSnapshot singleContact: contacts){
 
             //Get name
-            mNames.add((String) singleContact.child("name").getValue());
+            mNames.add((String) singleContact.getKey());
         }
 
         Log.d("PRINTNAMES", mNames.toString());
