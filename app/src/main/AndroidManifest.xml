@@ -25,7 +25,8 @@
         <activity android:name=".profile" />
         <activity android:name=".uploads" />
         <activity android:name=".documents" />
-        <activity android:name=".contacts" />
+        <activity android:name=".contacts_home" />
+        <activity android:name=".contact" />
         <activity android:name=".add_contacts" />
         <activity android:name=".forget_password" />
         <activity android:name=".capture" />

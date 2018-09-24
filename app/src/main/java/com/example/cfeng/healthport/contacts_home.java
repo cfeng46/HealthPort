@@ -1,14 +1,12 @@
 package com.example.cfeng.healthport;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,14 +18,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
 
 
-public class contacts extends AppCompatActivity {
+public class contacts_home extends AppCompatActivity {
 
-    private static final String TAG = "contacts";
+    private static final String TAG = "contacts_home";
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private TextView name;
@@ -41,7 +36,7 @@ public class contacts extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contacts);
+        setContentView(R.layout.activity_contacts_home);
 
         TextView addText = findViewById(R.id.addText);
         ImageView addButton = findViewById(R.id.addButton);
@@ -52,7 +47,7 @@ public class contacts extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts");
+        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts_home");
         current_user_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -77,28 +72,28 @@ public class contacts extends AppCompatActivity {
         addText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(contacts.this, add_contacts.class));
+                startActivity(new Intent(contacts_home.this, add_contacts.class));
                 finish();
             }
         });
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(contacts.this, add_contacts.class));
+                startActivity(new Intent(contacts_home.this, add_contacts.class));
                 finish();
             }
         });
         backText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(contacts.this, home.class));
+                startActivity(new Intent(contacts_home.this, home.class));
                 finish();
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(contacts.this, home.class));
+                startActivity(new Intent(contacts_home.this, home.class));
                 finish();
             }
         });
@@ -121,6 +116,11 @@ public class contacts extends AppCompatActivity {
 
         Log.d("PRINTNAMES", mNames.toString());
 
+    }
+
+    public void openContact() {
+        startActivity(new Intent(contacts_home.this, contact.class));
+        finish();
     }
 
 

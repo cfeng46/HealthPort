@@ -4,5 +4,9 @@
         android:id="@+id/contact_item"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:clickable="true"
+        android:textSize="18sp"
+        android:textColor="#404040"
+        android:gravity="center"
         />
 

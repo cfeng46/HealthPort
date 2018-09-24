@@ -43,8 +43,8 @@ public class add_contacts extends AppCompatActivity {
                 final String faxNumber = fax_number.getText().toString().trim();
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = mDatabase.child(user_id);
-                current_user_db.child("contacts").child(newName).setValue(faxNumber);
-                startActivity(new Intent(add_contacts.this, contacts.class));
+                current_user_db.child("contacts_home").child(newName).setValue(faxNumber);
+                startActivity(new Intent(add_contacts.this, contacts_home.class));
                 Toast.makeText(add_contacts.this, "New Contacts Added", Toast.LENGTH_SHORT).show();
             }
         });
@@ -52,7 +52,7 @@ public class add_contacts extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(add_contacts.this, contacts.class));
+                startActivity(new Intent(add_contacts.this, contacts_home.class));
                 finish();
             }
         });

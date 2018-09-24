@@ -1,13 +1,17 @@
 package com.example.cfeng.healthport;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
     private ArrayList<String> names;
 
     // Provide a reference to the views for each data item
@@ -18,6 +22,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public MyViewHolder(TextView v) {
             super(v);
             mTextView = v;
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, contact.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -41,7 +54,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextView.setText(names.get(position));
+        if (position % 2 == 0) {
+            holder.mTextView.setBackgroundResource(R.drawable.dark_background);
+        } else {
+            holder.mTextView.setBackgroundResource(R.drawable.light_background);
+        }
 
+        /*holder.mTextView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(contacts_home.this, home.class));
+                finish();
+            }
+        });*/
     }
 
     // Return the size of your dataset (invoked by the layout manager)
