@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,8 +27,10 @@ public class add_contacts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contacts);
 
-        Button save = (Button) findViewById(R.id.save);
-        Button back = (Button) findViewById(R.id.back);
+        TextView backText = findViewById(R.id.backText);
+        ImageView backButton = findViewById(R.id.backArrow);
+        TextView saveText = findViewById(R.id.saveText);
+        ImageView saveButton = findViewById(R.id.saveButton);
 
 
         name = (EditText) findViewById(R.id.name);
@@ -36,20 +40,40 @@ public class add_contacts extends AppCompatActivity {
 
 
 
-        save.setOnClickListener(new View.OnClickListener() {
+        saveText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String newName = name.getText().toString().trim();
                 final String faxNumber = fax_number.getText().toString().trim();
                 String user_id = mAuth.getCurrentUser().getUid();
                 DatabaseReference current_user_db = mDatabase.child(user_id);
-                current_user_db.child("contacts_home").child(newName).setValue(faxNumber);
+                current_user_db.child("contacts").child(newName).setValue(faxNumber);
                 startActivity(new Intent(add_contacts.this, contacts_home.class));
                 Toast.makeText(add_contacts.this, "New Contacts Added", Toast.LENGTH_SHORT).show();
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String newName = name.getText().toString().trim();
+                final String faxNumber = fax_number.getText().toString().trim();
+                String user_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference current_user_db = mDatabase.child(user_id);
+                current_user_db.child("contacts").child(newName).setValue(faxNumber);
+                startActivity(new Intent(add_contacts.this, contacts_home.class));
+                Toast.makeText(add_contacts.this, "New Contacts Added", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        backText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(add_contacts.this, contacts_home.class));
+                finish();
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(add_contacts.this, contacts_home.class));
