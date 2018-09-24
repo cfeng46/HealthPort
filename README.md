@@ -10,8 +10,12 @@ Our Commit/Review Process:
 - Comment @ someone in issue to review your code
 - Only after a LGTM (looks good to me) can code be pushed to master
 
-Our Done criteria:
+Our Done Criteria:
 - Has been reviewed by at least one other team member
 - The review must include running through the process of the individual user story that was completed
+- The review must also include attempting breakage
 - Only after this can it be moved to Done
+
+Our Closed Criteria:
+- Code must be pushed to master
 - Only then can it be closed
