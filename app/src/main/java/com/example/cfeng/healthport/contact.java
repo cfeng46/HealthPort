@@ -21,9 +21,6 @@ public class contact extends AppCompatActivity {
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
 
-        TextView test = findViewById(R.id.testText);
-        test.setText(contactName + contactNum);
-
 
         backText.setOnClickListener(new View.OnClickListener() {
             @Override
