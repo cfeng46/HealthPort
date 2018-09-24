@@ -8,11 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.cfeng.healthport.Model.Contact;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private ArrayList<String> names;
+    private static ArrayList<Contact> contacts;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -26,6 +29,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    contact.setContactName((String) mTextView.getText());
+                    for (Contact c : contacts) {
+                        if (c.getName().equals(mTextView.getText())) {
+                            contact.setContactNumber(c.getNumber());
+                        }
+                    }
+
                     Context context = v.getContext();
                     Intent intent = new Intent(context, contact.class);
                     context.startActivity(intent);
@@ -35,8 +45,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(ArrayList dataset) {
-        names = dataset;
+    public MyAdapter(ArrayList<Contact> dataset) {
+        contacts = dataset;
     }
 
     // Create new views (invoked by the layout manager)
@@ -53,7 +63,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mTextView.setText(names.get(position));
+        holder.mTextView.setText(contacts.get(position).getName());
         if (position % 2 == 0) {
             holder.mTextView.setBackgroundResource(R.drawable.dark_background);
         } else {
@@ -71,6 +81,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return names.size();
+        return contacts.size();
     }
 }

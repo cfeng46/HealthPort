@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.cfeng.healthport.Model.Contact;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class contacts_home extends AppCompatActivity {
@@ -29,8 +32,8 @@ public class contacts_home extends AppCompatActivity {
     private RecyclerView rcvListMessage;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdapter;
-    private ArrayList<String> mNames = new ArrayList<>();
-    //private ArrayList<Map<String, Object>> mNames= new ArrayList<Map<String, Object>>();
+    private ArrayList<Contact> contactsList = new ArrayList<>();
+    //private ArrayList<Map<String, String>> mNames= new ArrayList<Map<String, String>>();
 
 
     @Override
@@ -47,7 +50,7 @@ public class contacts_home extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts_home");
+        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts");
         current_user_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -66,7 +69,7 @@ public class contacts_home extends AppCompatActivity {
         rcvListMessage.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         rcvListMessage.setLayoutManager(layoutManager);
-        mAdapter = new MyAdapter(mNames);
+        mAdapter = new MyAdapter(contactsList);
         rcvListMessage.setAdapter(mAdapter);
 
         addText.setOnClickListener(new View.OnClickListener() {
@@ -111,17 +114,11 @@ public class contacts_home extends AppCompatActivity {
         for (DataSnapshot singleContact: contacts){
 
             //Get name
-            mNames.add((String) singleContact.getKey());
+            contactsList.add(new Contact((String) singleContact.getKey(), (String) singleContact.getValue()));
         }
 
-        Log.d("PRINTNAMES", mNames.toString());
+        Log.d("PRINTNAMES", contactsList.toString());
 
     }
-
-    public void openContact() {
-        startActivity(new Intent(contacts_home.this, contact.class));
-        finish();
-    }
-
 
 }

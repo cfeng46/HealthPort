@@ -7,7 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 public class contact extends AppCompatActivity {
+
+    private static String contactName;
+    private static String contactNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +20,10 @@ public class contact extends AppCompatActivity {
 
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
+
+        TextView test = findViewById(R.id.testText);
+        test.setText(contactName + contactNum);
+
 
         backText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,5 +41,12 @@ public class contact extends AppCompatActivity {
         });
 
 
+    }
+
+    public static void setContactName(String name) {
+        contactName = name;
+    }
+    public static void setContactNumber(String number) {
+        contactNum = number;
     }
 }
