@@ -55,6 +55,7 @@ public class main_page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(main_page.this, contacts.class));
+                finish();
             }
         });
     }
