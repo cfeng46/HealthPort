@@ -17,16 +17,17 @@
         android:layout_height="114dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="88dp"
         android:text="@string/upload_from_picture" />
 
     <Button
         android:id="@+id/photo"
         android:layout_width="177dp"
         android:layout_height="114dp"
+        android:layout_alignStart="@+id/capture"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="101dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="211dp"
         android:text="@string/uploads_from_photos" />
 
     <ImageButton
@@ -37,5 +38,14 @@
         android:layout_alignParentTop="true"
         app:srcCompat="?attr/actionModeCloseDrawable"
         android:contentDescription="@string/todo" />
+
+    <Button
+        android:id="@+id/pdf"
+        android:layout_width="177dp"
+        android:layout_height="114dp"
+        android:layout_alignStart="@+id/capture"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="94dp"
+        android:text="UPLOAD FROM EXISTING PDF" />
 
 </RelativeLayout>

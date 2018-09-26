@@ -24,8 +24,8 @@
 
     <TextureView
         android:id="@+id/textureView"
-        android:layout_width="350dp"
-        android:layout_height="512dp"
+        android:layout_width="match_parent"
+        android:layout_height="516dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 

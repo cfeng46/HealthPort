@@ -19,13 +19,6 @@ import java.util.Map;
 
 public class contacts extends AppCompatActivity {
 
-    private static final String TAG = "contacts";
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-    private TextView name;
-    //private RecyclerView rcvListMessage;
-    //private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<Map<String, Object>> mNames= new ArrayList<Map<String, Object>>();
 
 
     @Override
@@ -46,20 +39,11 @@ public class contacts extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(contacts.this, main_page.class));
+                startActivity(new Intent(contacts.this, home.class));
                 finish();
             }
         });
 
-
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-        String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id);
-
-
-        Log.d(TAG, "onCreate: started");
 
 
     }

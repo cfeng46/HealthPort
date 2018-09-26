@@ -30,7 +30,7 @@
         android:layout_marginLeft="20dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="65dp"
-        app:srcCompat="@drawable/green_check"
+        app:srcCompat="@mipmap/green_check"
         android:contentDescription="@string/todo"
         android:focusable="true"/>
 
@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        app:srcCompat="@drawable/cancel_x"
+        app:srcCompat="@mipmap/cancel_x"
         android:contentDescription="@string/todo"
         android:focusable="true" />
 

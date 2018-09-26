@@ -27,4 +27,7 @@
     <string name="update_password">Update Password</string>
     <string name="upload_from_picture">Upload from picture</string>
     <string name="uploads_from_photos">Uploads from photos</string>
-=</resources>
+    <string name="profilename">profileName</string>
+    <string name="filename">fileName:</string>
+    =
+</resources>

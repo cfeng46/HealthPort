@@ -14,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@mipmap/logo" />
 
     <TextView
         android:id="@+id/email_address"
@@ -75,7 +75,7 @@
         android:layout_toEndOf="@+id/newUserText"
         android:clickable="true"
         android:layout_marginLeft="10dp"
-        app:srcCompat="@drawable/plus_button" />
+        app:srcCompat="@mipmap/plus_button" />
 
     <Button
     android:id="@+id/login"

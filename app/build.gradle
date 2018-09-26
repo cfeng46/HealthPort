@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.example.cfeng.healthport"
         minSdkVersion 21
@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.2';
     //glide
     implementation 'com.github.bumptech.glide:glide:4.4.0';
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     //circle imageview
     implementation 'de.hdodenhof:circleimageview:2.2.0';
