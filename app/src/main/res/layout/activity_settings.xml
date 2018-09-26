@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        app:srcCompat="@mipmap/back_arrow"
+        app:srcCompat="@drawable/back_arrow"
         android:contentDescription="@string/todo"
         android:focusable="true" />
 
@@ -95,7 +95,7 @@
         android:layout_marginLeft="10dp"
         android:layout_alignTop="@+id/email"
         android:layout_marginTop="50dp"
-        app:srcCompat="@mipmap/pencil"/>
+        app:srcCompat="@drawable/pencil"/>
 
     <TextView
         android:id="@+id/change_email"
@@ -118,7 +118,7 @@
         android:layout_marginLeft="10dp"
         android:layout_alignTop="@+id/password"
         android:layout_marginTop="50dp"
-        app:srcCompat="@mipmap/pencil"/>
+        app:srcCompat="@drawable/pencil"/>
 
     <TextView
         android:id="@+id/change_password"
