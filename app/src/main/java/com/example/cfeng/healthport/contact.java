@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 
 public class contact extends AppCompatActivity {
@@ -35,8 +38,8 @@ public class contact extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts").child(name);
-        current_user_db.addListenerForSingleValueEvent(
+        final DatabaseReference current_contact_db = mDatabase.child(user_id).child("contacts").child(name);
+        current_contact_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -56,8 +59,14 @@ public class contact extends AppCompatActivity {
         TextView update_contact_text = findViewById(R.id.change_contact);
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
+        TextView deleteText = findViewById(R.id.delete_contact_text);
 
-        //
+        deleteText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteContact(current_contact_db);
+            }
+        });
 
         update_contact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +110,11 @@ public class contact extends AppCompatActivity {
             return(nameDisplay);
         }
         return null;
+    }
+    private void deleteContact(DatabaseReference contactReference) {
+        contactReference.removeValue();
+
+        Toast.makeText(this, "Contact is deleted.", Toast.LENGTH_LONG).show();
     }
 
     public static void setContactName(String name) {

@@ -82,7 +82,7 @@
         android:layout_toEndOf="@+id/change_contact"
         android:layout_marginLeft="10dp"
         android:layout_alignTop="@+id/fax_number"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="70dp"
         app:srcCompat="@drawable/pencil"/>
 
     <TextView
@@ -92,9 +92,23 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/change_contact_icon"
         android:layout_marginLeft="115dp"
+        android:layout_marginTop="6dp"
         android:text="Change?"
         android:textStyle="bold"
         android:textSize="16sp"
         />
+
+    <TextView
+        android:id="@+id/delete_contact_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/change_contact"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="140dp"
+        android:clickable="true"
+        android:text="Delete?"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
