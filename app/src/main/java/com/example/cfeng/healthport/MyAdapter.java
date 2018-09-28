@@ -38,6 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
                     Context context = v.getContext();
                     Intent intent = new Intent(context, contact.class);
+                    intent.putExtra("contact_name", mTextView.getText());
                     context.startActivity(intent);
                 }
             });

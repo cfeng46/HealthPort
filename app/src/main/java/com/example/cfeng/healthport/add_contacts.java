@@ -104,10 +104,10 @@ public class add_contacts extends AppCompatActivity {
         if (newName.isEmpty() || faxNumber.isEmpty()) {
             Toast.makeText(add_contacts.this,"You miss important information", Toast.LENGTH_SHORT).show();
         } else if (faxNumber.length() > 10) {
-            Toast.makeText(add_contacts.this,"Your faxNumber is invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(add_contacts.this,"Your fax number is invalid", Toast.LENGTH_SHORT).show();
 
         } else if (contactsList.contains(newName)) {
-            Toast.makeText(add_contacts.this,"This contact exist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(add_contacts.this,"This contact already exists", Toast.LENGTH_SHORT).show();
         } else {
             mDatabase.child(user_id).child("contacts").child(newName).setValue(faxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
