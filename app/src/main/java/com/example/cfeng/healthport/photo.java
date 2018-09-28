@@ -176,7 +176,7 @@ public class photo extends AppCompatActivity {
 //                        }
 //                    }
 //                });
-                database.child(uid).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {

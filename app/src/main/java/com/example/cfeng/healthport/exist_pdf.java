@@ -104,7 +104,7 @@ public class exist_pdf extends AppCompatActivity {
                 String url = taskSnapshot.getDownloadUrl().toString();
                 Map report = new HashMap();
                 report.put(file_name, url);
-                databaseReference.child(uid).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                databaseReference.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {

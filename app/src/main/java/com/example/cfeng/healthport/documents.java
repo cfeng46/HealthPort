@@ -72,7 +72,7 @@ public class documents extends AppCompatActivity {
             }
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -82,10 +82,9 @@ public class documents extends AppCompatActivity {
                     name.add(key);
                     uploadList.add(value);
                 }
-                List<String> data = name.subList(1,name.size());
 
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, data);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, name);
                 listView.setAdapter(adapter);
             }
 

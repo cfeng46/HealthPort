@@ -239,7 +239,7 @@ public class capture extends AppCompatActivity {
                 }
                 private void save(byte[] bytes) throws IOException {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    PdfDocument pdfDocument = new PdfDocument();
+                    final PdfDocument pdfDocument = new PdfDocument();
                     PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(),1).create();
                     PdfDocument.Page page = pdfDocument.startPage(pi);
                     Canvas canvas = page.getCanvas();
@@ -253,18 +253,18 @@ public class capture extends AppCompatActivity {
 
                     pdfDocument.finishPage(page);
 
-                    File root = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
-                    if (!root.exists()) {
-                        root.mkdir();
-                    }
-                    final File file = new File(root, "picture" + UUID.randomUUID().toString() + ".pdf");
-                    try {
-                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-                        pdfDocument.writeTo(fileOutputStream);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    pdfDocument.close();
+//                    File root = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
+//                    if (!root.exists()) {
+//                        root.mkdir();
+//                    }
+//                    final File file = new File(root, "picture" + UUID.randomUUID().toString() + ".pdf");
+//                    try {
+//                        FileOutputStream fileOutputStream = new FileOutputStream(file);
+//                        pdfDocument.writeTo(fileOutputStream);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    pdfDocument.close();
                     final Dialog dialog = new Dialog(capture.this);
                     dialog.setContentView(R.layout.confirmation_page);
                     ImageButton green_check = dialog.findViewById(R.id.yes);
@@ -274,8 +274,21 @@ public class capture extends AppCompatActivity {
                     green_check.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Uri contentUri = Uri.fromFile(file);
+//                            Uri contentUri = Uri.fromFile(file);
                             if (!file_name.getText().toString().isEmpty()) {
+                                File root = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
+                                if (!root.exists()) {
+                                    root.mkdir();
+                                }
+                                final File file = new File(root, "picture" + file_name.getText().toString() + ".pdf");
+                                try {
+                                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                                    pdfDocument.writeTo(fileOutputStream);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                pdfDocument.close();
+                                Uri contentUri = Uri.fromFile(file);
                                 upload(contentUri, file_name.getText().toString());
                                 dialog.dismiss();
                             } else {
@@ -356,7 +369,7 @@ public class capture extends AppCompatActivity {
 //                        }
 //                    }
 //                });
-                database.child(uid).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
