@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,8 @@ public class contacts_home extends AppCompatActivity {
         ImageView addButton = findViewById(R.id.addButton);
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
+        EditText searchBar = findViewById(R.id.searchBar);
+        searchBar.requestFocus();
 
         //Get all contact names
         mAuth = FirebaseAuth.getInstance();

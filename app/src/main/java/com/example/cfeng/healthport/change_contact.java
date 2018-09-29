@@ -122,7 +122,7 @@ public class change_contact extends AppCompatActivity {
         if (updatedContactName.isEmpty() || updatedFaxNumber.isEmpty()) {
             Toast.makeText(change_contact.this,"Please type a name", Toast.LENGTH_SHORT).show();
         } else if (updatedFaxNumber.length() > 10) {
-            Toast.makeText(change_contact.this,"Your fax number is invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(change_contact.this,"Fax number invalid", Toast.LENGTH_SHORT).show();
 
         } else if (updatedContactName.equals(name)) {
             current_contact_db.setValue(updatedFaxNumber);
