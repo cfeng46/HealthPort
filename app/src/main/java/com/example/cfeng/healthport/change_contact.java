@@ -84,14 +84,18 @@ public class change_contact extends AppCompatActivity {
         cancelText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(change_contact.this, contacts_home.class));
+                Intent intent = new Intent(change_contact.this, contact.class);
+                intent.putExtra("contact_name", name);
+                startActivity(intent);
                 finish();
             }
         });
         cancelIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(change_contact.this, contacts_home.class));
+                Intent intent = new Intent(change_contact.this, contact.class);
+                intent.putExtra("contact_name", name);
+                startActivity(intent);
                 finish();
             }
         });
@@ -141,8 +145,6 @@ public class change_contact extends AppCompatActivity {
                 }
 
             });
-
-
         }
 
 
