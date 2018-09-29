@@ -113,7 +113,7 @@ public class add_contacts extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(add_contacts.this, "New Contacts Added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(add_contacts.this, "New Contact Added", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(add_contacts.this, contacts_home.class));
                     }
                 }

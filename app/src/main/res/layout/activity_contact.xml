@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="10dp"
-        app:srcCompat="@drawable/back_arrow" />
+        app:srcCompat="@drawable/back_arrow"
+        android:contentDescription="back arrow icon" />
 
     <TextView
         android:id="@+id/name"
@@ -79,14 +80,14 @@
         android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/change_contact"
+        android:layout_toEndOf="@+id/change_contact_text"
         android:layout_marginLeft="10dp"
         android:layout_alignTop="@+id/fax_number"
         android:layout_marginTop="70dp"
         app:srcCompat="@drawable/pencil"/>
 
     <TextView
-        android:id="@+id/change_contact"
+        android:id="@+id/change_contact_text"
         android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,7 +103,7 @@
         android:id="@+id/delete_contact_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/change_contact"
+        android:layout_alignTop="@+id/change_contact_text"
         android:layout_marginTop="45dp"
         android:layout_marginLeft="140dp"
         android:clickable="true"

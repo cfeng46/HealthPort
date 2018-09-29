@@ -23,6 +23,7 @@ public class contact extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private static String name;
 
     private static String contactName;
     private static String contactNum;
@@ -32,8 +33,7 @@ public class contact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-        String name = getIncomingIntent();
-        Log.d("mytag", name);
+        name = getIncomingIntent();
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -44,8 +44,8 @@ public class contact extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String contact_fax = (String) dataSnapshot.getValue();
-                        TextView name = findViewById(R.id.fax_number_value);
-                        name.setText(contact_fax);
+                        TextView fax_text = findViewById(R.id.fax_number_value);
+                        fax_text.setText(contact_fax);
                     }
 
                     @Override
@@ -56,7 +56,8 @@ public class contact extends AppCompatActivity {
 
 
         ImageView update_contact = findViewById(R.id.change_contact_icon);
-        TextView update_contact_text = findViewById(R.id.change_contact);
+        TextView update_contact_text = findViewById(R.id.change_contact_text);
+
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
         TextView deleteText = findViewById(R.id.delete_contact_text);
@@ -71,14 +72,19 @@ public class contact extends AppCompatActivity {
         update_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(contact.this, change_contact.class));
+            editContact();
+            finish();
+
             }
         });
 
         update_contact_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(contact.this, change_contact.class));
+            editContact();
+            finish();
+
+
             }
         });
 
@@ -105,11 +111,21 @@ public class contact extends AppCompatActivity {
         if (getIntent().hasExtra("contact_name")) {
             String nameDisplay = getIntent().getStringExtra("contact_name");
 
-            TextView name = findViewById(R.id.name_value);
-            name.setText(nameDisplay);
+            TextView nameText = findViewById(R.id.name_value);
+            nameText.setText(nameDisplay);
             return(nameDisplay);
         }
         return null;
+    }
+
+    private void editContact() {
+        Log.d("msg", "clicked update");
+        Intent intent = new Intent(contact.this, change_contact.class);
+        Log.d("msg", "intent made");
+        intent.putExtra("dbContact", name);
+        startActivity(intent);
+
+
     }
     private void deleteContact(DatabaseReference contactReference) {
         contactReference.removeValue();
@@ -117,8 +133,8 @@ public class contact extends AppCompatActivity {
         Toast.makeText(this, "Contact is deleted.", Toast.LENGTH_LONG).show();
     }
 
-    public static void setContactName(String name) {
-        contactName = name;
+    public static void setContactName(String contName) {
+        contactName = contName;
     }
     public static void setContactNumber(String number) {
         contactNum = number;
