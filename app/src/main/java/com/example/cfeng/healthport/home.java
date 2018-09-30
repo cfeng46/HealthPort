@@ -54,11 +54,7 @@ public class home extends AppCompatActivity {
         contacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
-                startActivity(new Intent(home.this, contacts.class));
-=======
                 startActivity(new Intent(home.this, contacts_home.class));
->>>>>>> master
             }
         });
     }

@@ -101,7 +101,7 @@ public class exist_pdf extends AppCompatActivity {
         storageReference.child("Uploads").child(fileName).putFile(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String url = taskSnapshot.getDownloadUrl().toString();
+                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
                 Map report = new HashMap();
                 report.put(file_name, url);
                 databaseReference.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {

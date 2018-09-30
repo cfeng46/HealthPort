@@ -163,7 +163,7 @@ public class photo extends AppCompatActivity {
         storage.child("Uploads").child(fileName).putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String url = taskSnapshot.getDownloadUrl().toString();
+                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
                 Map report = new HashMap();
                 report.put(file_name, url);
 //                database.child(uid).child(profile.getText().toString()).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
