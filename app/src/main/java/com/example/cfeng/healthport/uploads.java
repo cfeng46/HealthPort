@@ -12,6 +12,7 @@ public class uploads extends AppCompatActivity {
     private Button picture_button;
     private Button photo_button;
     private ImageButton back;
+    private Button pdf_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class uploads extends AppCompatActivity {
         setContentView(R.layout.activity_uploads);
 
         picture_button = (Button) findViewById(R.id.capture);
+        pdf_button = findViewById(R.id.pdf);
         photo_button = (Button) findViewById(R.id.photo);
         back = (ImageButton) findViewById(R.id.imageButton);
 
@@ -35,6 +37,13 @@ public class uploads extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(new Intent(uploads.this, photo.class));
                 finish();
+            }
+        });
+
+        pdf_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(uploads.this, exist_pdf.class));
             }
         });
 

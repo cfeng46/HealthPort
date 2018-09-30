@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".exist_pdf">
+
+    <!--<TextView-->
+        <!--android:id="@+id/textView4"-->
+        <!--android:layout_width="99dp"-->
+        <!--android:layout_height="29dp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_marginStart="26dp"-->
+        <!--android:layout_marginTop="185dp"-->
+        <!--android:text="ProfileName:" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/pdf_profile"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/textView4"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginTop="-10dp"-->
+        <!--android:layout_marginEnd="27dp"-->
+        <!--android:ems="10"-->
+        <!--android:inputType="textPersonName" />-->
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="93dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="234dp"
+        android:text="fileName:" />
+
+    <EditText
+        android:id="@+id/pdf_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="61dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/pdf_choose"
+        android:layout_width="382dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="146dp"
+        android:text="Choose pdf" />
+</RelativeLayout>
