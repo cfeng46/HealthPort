@@ -129,18 +129,28 @@ public class change_contact extends AppCompatActivity {
             Toast.makeText(change_contact.this,"Fax number invalid", Toast.LENGTH_SHORT).show();
 
         } else if (updatedContactName.equals(name)) {
-            current_contact_db.setValue(updatedFaxNumber);
-            Toast.makeText(change_contact.this, "Contact Updated", Toast.LENGTH_SHORT).show();
-            return;
-            //Toast.makeText(change_contact.this,"This contact already exists", Toast.LENGTH_SHORT).show();
+            current_contact_db.setValue(updatedFaxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(change_contact.this, "Contact Updated", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(change_contact.this, contact.class);
+                        intent.putExtra("contact_name", name);
+                        startActivity(intent);
+                    }
+                }
+            });
+
         } else {
+            currentContact.removeValue();
             mDatabase.child(user_id).child("contacts").child(updatedContactName).setValue(updatedFaxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(change_contact.this, "Contact Updated", Toast.LENGTH_SHORT).show();
-                        currentContact.removeValue();
-                        //startActivity(new Intent(change_contact.this, contacts_home.class));
+                        Intent intent = new Intent(change_contact.this, contact.class);
+                        intent.putExtra("contact_name", updatedContactName);
+                        startActivity(intent);
                     }
                 }
 
