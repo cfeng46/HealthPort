@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/fax_number"
         android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/NameLabel"
+        android:layout_alignEnd="@+id/NameLabel"
         android:text="Fax Number:"
         android:textSize="18sp" />
 

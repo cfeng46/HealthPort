@@ -37,12 +37,10 @@ public class add_contacts extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_contacts);
 
-
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
         TextView saveText = findViewById(R.id.saveText);
         ImageView saveButton = findViewById(R.id.saveButton);
-
 
 
         name = (EditText) findViewById(R.id.name);
@@ -61,8 +59,7 @@ public class add_contacts extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                add_new();
-                startActivity(new Intent(add_contacts.this, contacts_home.class));
+                new_func();
             }
         });
 
@@ -80,25 +77,6 @@ public class add_contacts extends AppCompatActivity {
                 finish();
             }
         });
-
-
-        }
-
-    private void add_new() {
-        final String newName = name.getText().toString().trim();
-        final String faxNumber = fax_number.getText().toString().trim();
-        String uid = mAuth.getCurrentUser().getUid();
-        mDatabase.child(uid).child("contacts").child(newName).setValue(faxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(add_contacts.this, "New Contacts Added", Toast.LENGTH_SHORT).show();
-                }
-                new_func();
-            }
-        });
-
-
     }
     private void new_func() {
         final String newName = name.getText().toString().trim();
