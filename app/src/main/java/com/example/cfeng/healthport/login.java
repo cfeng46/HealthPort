@@ -36,7 +36,8 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button login = (Button) findViewById(R.id.login);
+        ImageView loginIcon = findViewById(R.id.loginIcon);
+        TextView login = findViewById(R.id.login);
         ImageView register = (ImageView) findViewById(R.id.register);
         TextView registerText = (TextView) findViewById(R.id.newUserText);
 
@@ -50,6 +51,36 @@ public class login extends AppCompatActivity {
          * Button handler for the login button
          */
         login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String login_email = email.getText().toString().trim();
+                String pass = password.getText().toString().trim();
+                if (!TextUtils.isEmpty(login_email) && !TextUtils.isEmpty(pass)) {
+                    mAuth.signInWithEmailAndPassword(login_email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                checkUserExistence();
+                            } else {
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthInvalidUserException e) {
+                                    Toast.makeText(com.example.cfeng.healthport.login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                    Toast.makeText(com.example.cfeng.healthport.login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(com.example.cfeng.healthport.login.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(com.example.cfeng.healthport.login.this, "Fill all fields", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        loginIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String login_email = email.getText().toString().trim();

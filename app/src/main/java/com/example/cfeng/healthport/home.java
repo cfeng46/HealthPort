@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class home extends AppCompatActivity {
 
@@ -13,7 +15,8 @@ public class home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Button signout = (Button) findViewById(R.id.signout);
+        ImageView signout = findViewById(R.id.signout);
+        TextView signoutText = findViewById(R.id.signout_text);
         final Button profile = (Button) findViewById(R.id.profile);
         Button docs = (Button) findViewById(R.id.documents);
         Button setting = (Button) findViewById(R.id.settings);
@@ -26,6 +29,13 @@ public class home extends AppCompatActivity {
             }
         });
 
+        signoutText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(home.this, login.class));
+                finish();
+            }
+        });
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -74,14 +74,14 @@ public class uploads extends AppCompatActivity {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(uploads.this, home.class));
+                startActivity(new Intent(uploads.this, documents.class));
                 finish();
             }
         });
         backText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(uploads.this, home.class));
+                startActivity(new Intent(uploads.this, documents.class));
                 finish();
             }
         });
