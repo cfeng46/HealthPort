@@ -47,8 +47,8 @@
         android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/user"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="36dp"
+        android:layout_toEndOf="@+id/user"
+        android:layout_marginLeft="20dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -72,7 +72,7 @@
         android:inputType="textPassword" />
 
 
-    <Button
+    <!--<Button
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
         android:textSize="18sp"
-        android:text="@string/register" />
+        android:text="@string/register" />-->
 
 
     <TextView
@@ -112,8 +112,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
         app:srcCompat="@drawable/back_arrow" />
+
+    <ImageView
+        android:id="@+id/register_icon"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/title"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="65dp"
+        app:srcCompat="@drawable/green_check"
+        android:contentDescription="@string/todo"
+        android:focusable="true"/>
+
+    <TextView
+        android:id="@+id/register_text"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/register_icon"
+        android:layout_toEndOf="@+id/register_icon"
+        android:layout_marginLeft="10dp"
+        android:text="@string/good"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:focusable="true"/>
 
 
 

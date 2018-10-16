@@ -6,25 +6,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 public class uploads extends AppCompatActivity {
-    private Button picture_button;
-    private Button photo_button;
-    private ImageButton back;
-    private Button pdf_button;
+    private ImageView picture_button, pdf_button, photo_button, backArrow;
+    private TextView picture_text, pdf_text, photo_text, backText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uploads);
 
-        picture_button = (Button) findViewById(R.id.capture);
-        pdf_button = findViewById(R.id.pdf);
-        photo_button = (Button) findViewById(R.id.photo);
-        back = (ImageButton) findViewById(R.id.imageButton);
+        picture_text = findViewById(R.id.capture);
+        picture_button = findViewById(R.id.camera);
+        pdf_text = findViewById(R.id.pdf);
+        pdf_button = findViewById(R.id.pdfIcon);
+        photo_text = findViewById(R.id.photo);
+        photo_button = findViewById(R.id.image);
+        backArrow = findViewById(R.id.backArrow);
+        backText = findViewById(R.id.backText);
 
         picture_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(uploads.this, capture.class));
+                finish();
+            }
+        });
+        picture_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(uploads.this, capture.class));
@@ -39,6 +50,13 @@ public class uploads extends AppCompatActivity {
                 finish();
             }
         });
+        photo_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(uploads.this, photo.class));
+                finish();
+            }
+        });
 
         pdf_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,8 +64,21 @@ public class uploads extends AppCompatActivity {
                 startActivity(new Intent(uploads.this, exist_pdf.class));
             }
         });
+        pdf_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(uploads.this, exist_pdf.class));
+            }
+        });
 
-        back.setOnClickListener(new View.OnClickListener() {
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(uploads.this, home.class));
+                finish();
+            }
+        });
+        backText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(uploads.this, home.class));

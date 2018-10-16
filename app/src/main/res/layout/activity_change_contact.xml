@@ -16,8 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:textSize="32sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"
+        android:textSize="28sp"
         android:text="Edit Contact" />
 
 
@@ -26,8 +27,8 @@
         android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/settingsTitle"
-        android:layout_marginLeft="20dp"
+        android:layout_alignStart="@+id/editTitle"
+        android:layout_marginLeft="35dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="65dp"
         app:srcCompat="@drawable/green_check"
@@ -42,7 +43,7 @@
         android:layout_alignBottom="@+id/save_icon"
         android:layout_toEndOf="@+id/save_icon"
         android:layout_marginLeft="10dp"
-        android:text="Save"
+        android:text="@string/save"
         android:textStyle="bold"
         android:textSize="20sp"
         android:focusable="true"/>
@@ -54,10 +55,10 @@
         android:layout_alignTop="@+id/cancelX"
         android:layout_toEndOf="@+id/cancelX"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:text="@string/cancel"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:focusable="true" />
 
@@ -67,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
+
         app:srcCompat="@drawable/cancel_x"
         android:contentDescription="@string/todo"
         android:focusable="true" />
@@ -79,15 +80,16 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/name"
         android:layout_marginTop="85dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="20dp"
         android:text="Fax Number:"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/fax_type"
         android:layout_width="196dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/name_type"
+        android:layout_toEndOf="@+id/fax_number"
+        android:layout_marginLeft="20dp"
         android:layout_alignBaseline="@+id/fax_number"
         android:ems="10"
         android:inputType="phone" />
@@ -96,10 +98,10 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="170dp"
+        android:layout_below="@+id/editTitle"
+        android:layout_marginTop="80dp"
         android:layout_alignStart="@+id/fax_number"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:text="Name:" />
 
     <EditText
@@ -107,8 +109,8 @@
         android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/name"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="36dp"
+        android:layout_toEndOf="@+id/name"
+        android:layout_marginLeft="20dp"
         android:ems="10" />
 
 

@@ -16,7 +16,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -45,8 +47,10 @@ public class documents extends AppCompatActivity {
         uploadList = new ArrayList<>();
         name = new ArrayList<>();
         listView = findViewById(R.id.list_view);
-        final Button upload = findViewById(R.id.upload);
-        ImageButton back = findViewById(R.id.go_back);
+        final TextView upload = findViewById(R.id.upload);
+        final ImageView addButton = findViewById(R.id.addButton);
+        TextView back = findViewById(R.id.go_back);
+        ImageView back_arrow = findViewById(R.id.backArrow);
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid();
 
@@ -101,7 +105,20 @@ public class documents extends AppCompatActivity {
             }
         });
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(documents.this, uploads.class));
+            }
+        });
+
         back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(documents.this, home.class));
+            }
+        });
+        back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(documents.this, home.class));

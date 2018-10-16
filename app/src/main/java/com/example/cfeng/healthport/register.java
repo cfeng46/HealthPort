@@ -38,7 +38,8 @@ public class register extends AppCompatActivity {
 
         ImageView back = (ImageView) findViewById(R.id.backArrow);
         TextView backText = (TextView) findViewById(R.id.backText);
-        final Button register = (Button) findViewById(R.id.register);
+        final ImageView register_check = (ImageView) findViewById(R.id.register_icon);
+        final TextView register_text = (TextView) findViewById(R.id.register_text);
 
         email_address = (EditText) findViewById(R.id.edit_email);
         Pass = (EditText) findViewById(R.id.edit_pass);
@@ -63,7 +64,41 @@ public class register extends AppCompatActivity {
         });
 
 
-        register.setOnClickListener(new View.OnClickListener() {
+        register_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String user_name = UserName.getText().toString().trim();
+                final String email = email_address.getText().toString().trim();
+                final String pass_word = Pass.getText().toString().trim();
+                mAuth.createUserWithEmailAndPassword(email, pass_word).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String user_id = mAuth.getCurrentUser().getUid();
+                            DatabaseReference current_user_db = mDatabase.child(user_id);
+                            current_user_db.child("UserName").setValue(user_name);
+                            Toast.makeText(register.this, "User account is created", Toast.LENGTH_SHORT).show();
+                            Intent regIntent = new Intent(register.this, login.class);
+                            startActivity(regIntent);
+                        } else {
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                Toast.makeText(register.this, e.getReason(), Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Toast.makeText(register.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        register_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String user_name = UserName.getText().toString().trim();

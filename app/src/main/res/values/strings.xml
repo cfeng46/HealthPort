@@ -14,7 +14,7 @@
     <string name="settings">Settings</string>
     <string name="new_email">New email:</string>
     <string name="good">Good?</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">CANCEL</string>
     <string name="old_email">Old Email:</string>
     <string name="todo">TODO</string>
     <string name="put_your_email_address">put your email address:</string>
@@ -25,13 +25,16 @@
     <string name="backText">BACK</string>
     <string name="update_email">Update Email</string>
     <string name="update_password">Update Password</string>
-    <string name="upload_from_picture">Upload from picture</string>
-    <string name="uploads_from_photos">Uploads from photos</string>
+    <string name="upload_from_picture">Take a picture</string>
+    <string name="uploads_from_photos">Pick from phone photos</string>
+    <string name="uploads_from_pdf">Pick a pdf on your phone</string>
     <string name="profilename">profileName</string>
     <string name="filename">fileName:</string>
     <string name="add">ADD</string>
     <string name="searchContact">Search Contact</string>
     <string name="new_contact">New Contact</string>
     <string name="save">SAVE</string>
+    <string name="searchDocument">Search Document</string>
+    <string name="upload">Add a Document</string>
 
 </resources>

@@ -11,41 +11,97 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cfeng.healthport.uploads">
 
-    <Button
-        android:id="@+id/capture"
-        android:layout_width="177dp"
-        android:layout_height="114dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="88dp"
-        android:text="@string/upload_from_picture" />
-
-    <Button
-        android:id="@+id/photo"
-        android:layout_width="177dp"
-        android:layout_height="114dp"
-        android:layout_alignStart="@+id/capture"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="211dp"
-        android:text="@string/uploads_from_photos" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        app:srcCompat="?attr/actionModeCloseDrawable"
-        android:contentDescription="@string/todo" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:textSize="28sp"
+        android:text="@string/upload" />
 
-    <Button
+    <TextView
+        android:id="@+id/backText"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/backArrow"
+        android:layout_toEndOf="@+id/backArrow"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/backText"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/backArrow"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:srcCompat="@drawable/back_arrow" />
+
+    <TextView
+        android:id="@+id/capture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="@string/upload_from_picture" />
+
+    <ImageView
+        android:id="@+id/camera"
+        app:srcCompat="@drawable/camera"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/capture"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/camera"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="0dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="@string/uploads_from_photos" />
+
+    <ImageView
+        android:id="@+id/image"
+        app:srcCompat="@drawable/image"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photo"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
         android:id="@+id/pdf"
-        android:layout_width="177dp"
-        android:layout_height="114dp"
-        android:layout_alignStart="@+id/capture"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="94dp"
-        android:text="UPLOAD FROM EXISTING PDF" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/image"
+        android:layout_marginTop="35dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:text="@string/uploads_from_pdf" />
+
+    <ImageView
+        android:id="@+id/pdfIcon"
+        app:srcCompat="@drawable/pdf"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pdf"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

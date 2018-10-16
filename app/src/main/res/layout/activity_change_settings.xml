@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:textSize="32sp"
-        android:text="@string/settings" />
+        android:textSize="28sp"
+        android:text="Change Email" />
 
 
     <ImageView
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/settingsTitle"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="65dp"
         app:srcCompat="@drawable/green_check"
@@ -54,10 +54,10 @@
         android:layout_alignTop="@+id/cancelX"
         android:layout_toEndOf="@+id/cancelX"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:text="@string/cancel"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:focusable="true" />
 
@@ -67,7 +67,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
         app:srcCompat="@drawable/cancel_x"
         android:contentDescription="@string/todo"
         android:focusable="true" />
@@ -107,8 +106,8 @@
         android:layout_width="195dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/old"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="36dp"
+        android:layout_toEndOf="@+id/old"
+        android:layout_marginLeft= "20dp"
         android:ems="10"
         android:inputType="textEmailAddress" />
 

@@ -64,8 +64,17 @@ public class contact extends AppCompatActivity {
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
         TextView deleteText = findViewById(R.id.delete_contact_text);
+        ImageView deleteIcon = findViewById(R.id.delete_contact_icon);
 
         deleteText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteContact(current_contact_db);
+//                finish();
+            }
+        });
+
+        deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteContact(current_contact_db);
