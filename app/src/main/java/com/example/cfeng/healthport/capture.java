@@ -44,6 +44,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -267,8 +268,8 @@ public class capture extends AppCompatActivity {
 //                    pdfDocument.close();
                     final Dialog dialog = new Dialog(capture.this);
                     dialog.setContentView(R.layout.confirmation_page);
-                    ImageButton green_check = dialog.findViewById(R.id.yes);
-                    ImageButton cancel_cross = dialog.findViewById(R.id.no);
+                    ImageView green_check = dialog.findViewById(R.id.yes);
+                    ImageView cancel_cross = dialog.findViewById(R.id.no);
 //                    final EditText profile_name = dialog.findViewById(R.id.profile_name);
                     final EditText file_name = dialog.findViewById(R.id.file_name);
                     green_check.setOnClickListener(new View.OnClickListener() {

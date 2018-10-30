@@ -68,6 +68,8 @@ public class forget_password extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(forget_password.this, "We have sent you instruction to reset your password", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(forget_password.this, login.class));
+                            finish();
                         } else {
                             Toast.makeText(forget_password.this, "fail to send email", Toast.LENGTH_LONG).show();
                         }
@@ -89,6 +91,8 @@ public class forget_password extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(forget_password.this, "We have sent you instruction to reset your password", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(forget_password.this, login.class));
+                            finish();
                         } else {
                             Toast.makeText(forget_password.this, "fail to send email", Toast.LENGTH_LONG).show();
                         }

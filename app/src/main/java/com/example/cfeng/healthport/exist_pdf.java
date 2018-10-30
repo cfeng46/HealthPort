@@ -1,19 +1,24 @@
 package com.example.cfeng.healthport;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,33 +33,39 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class exist_pdf extends AppCompatActivity {
     final static int PICK_PDF_CODE = 1;
     private EditText profile_name;
-    private  EditText file_name;
+    //private  EditText file_name;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exist_pdf);
+        setContentView(R.layout.activity_uploads);
 
-        Button choose = findViewById(R.id.pdf_choose);
+        //Button choose = findViewById(R.id.pdf_choose);
 //        profile_name = findViewById(R.id.pdf_profile);
-        file_name = findViewById(R.id.pdf_file);
+        //file_name = findViewById(R.id.pdf_file);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid();
 
-        choose.setOnClickListener(new View.OnClickListener() {
+        getPDF();
+
+        /*choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!file_name.getText().toString().isEmpty()) {
@@ -63,7 +74,7 @@ public class exist_pdf extends AppCompatActivity {
                     Toast.makeText(exist_pdf.this, "Missing information", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
     }
     private void getPDF() {
@@ -81,15 +92,45 @@ public class exist_pdf extends AppCompatActivity {
     protected  void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            if (data.getData() != null && !file_name.getText().toString().isEmpty()) {
-                uploadFile(data.getData(), file_name.getText().toString());
+            if (data.getData() != null/* && !file_name.getText().toString().isEmpty()*/) {
+                uploadFile(data.getData()/*, file_name.getText().toString()*/);
             } else {
                 Toast.makeText(this, "No file chosen", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void uploadFile(Uri data, final String file_name) {
+    private void uploadFile(final Uri data/*, final String file_name*/) {
+        final Dialog dialog = new Dialog(exist_pdf.this);
+        dialog.setContentView(R.layout.confirmation_page);
+        ImageView green_check = dialog.findViewById(R.id.yes);
+        ImageView cancel_cross = dialog.findViewById(R.id.no);
+//                    final EditText profile_name = dialog.findViewById(R.id.profile_name);
+        final EditText file_name = dialog.findViewById(R.id.file_name);
+        green_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!file_name.getText().toString().isEmpty()) {
+                    dialog.dismiss();
+
+                    finishUpload(data, file_name.getText().toString());
+                } else {
+                    Log.d("FILE_NAME1", file_name.getText().toString());
+                    Toast.makeText(exist_pdf.this, "Missing information", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        cancel_cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void finishUpload(final Uri data, final String name) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setTitle("Uploading file....");
@@ -103,7 +144,7 @@ public class exist_pdf extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 String url = taskSnapshot.getStorage().getDownloadUrl().toString();
                 Map report = new HashMap();
-                report.put(file_name, url);
+                report.put(name, url);
                 databaseReference.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

@@ -1,5 +1,6 @@
 package com.example.cfeng.healthport;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,10 +16,12 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,7 +45,7 @@ import java.util.UUID;
 
 public class photo extends AppCompatActivity {
 
-    private EditText name;
+    //private EditText name;
 //    private EditText profile;
     private Button choose_photo;
     private static final int PICK_IMAGE = 1;
@@ -55,11 +58,11 @@ public class photo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo);
+        setContentView(R.layout.activity_uploads);
 
-        choose_photo = findViewById(R.id.choose);
-        back = findViewById(R.id.Verify);
-        name = findViewById(R.id.fileName);
+        //choose_photo = findViewById(R.id.choose);
+        //back = findViewById(R.id.Verify);
+        //name = findViewById(R.id.fileName);
 //        profile = findViewById(R.id.profile);
 
         storage = FirebaseStorage.getInstance().getReference();
@@ -67,27 +70,29 @@ public class photo extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-        back.setOnClickListener(new View.OnClickListener() {
+        /*back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(photo.this, uploads.class));
             }
-        });
+        });*/
 
-        choose_photo.setOnClickListener(new View.OnClickListener() {
+        Intent myIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(myIntent, PICK_IMAGE);
+
+        /*choose_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+                *//*
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-                */
-                Intent myIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(myIntent, PICK_IMAGE);
+                *//*
+
 
             }
-        });
+        });*/
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -143,15 +148,48 @@ public class photo extends AppCompatActivity {
             }
             pdfDocument.close();
             Uri contentUri = Uri.fromFile(file);
-            if (!name.getText().toString().isEmpty()) {
+            /*if (!name.getText().toString().isEmpty()) {
                 upload(contentUri, name.getText().toString());
             } else {
                 Toast.makeText(photo.this, "Missing information", Toast.LENGTH_SHORT).show();
-            }
+            }*/
+            upload(contentUri/*, name.getText().toString()*/);
         }
     }
 
-    private void upload(Uri contentUri, final String file_name) {
+    private void upload(final Uri contentUri/*, final String file_name*/) {
+        final Dialog dialog = new Dialog(photo.this);
+        dialog.setContentView(R.layout.confirmation_page);
+        ImageView green_check = dialog.findViewById(R.id.yes);
+        ImageView cancel_cross = dialog.findViewById(R.id.no);
+//                    final EditText profile_name = dialog.findViewById(R.id.profile_name);
+        final EditText file_name = dialog.findViewById(R.id.file_name);
+        green_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!file_name.getText().toString().isEmpty()) {
+                    dialog.dismiss();
+
+                    finishUpload(contentUri, file_name.getText().toString());
+                } else {
+                    Log.d("FILE_NAME1", file_name.getText().toString());
+                    Toast.makeText(photo.this, "Missing information", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        cancel_cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+
+    }
+
+    private void finishUpload(final Uri contentUri, final String file_name) {
         progressDialog = new ProgressDialog(this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setTitle("Uploading file....");
