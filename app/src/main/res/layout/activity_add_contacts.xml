@@ -43,79 +43,94 @@
         android:textSize="28sp"
         android:text="@string/new_contact" />
 
-    <TextView
-        android:id="@+id/NameLabel"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/name_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/title"
-        android:layout_marginTop="80dp"
-        android:layout_alignStart="@+id/NumberLabel"
-        android:text="Name:"
-        android:textSize="18sp" />
+        android:layout_marginTop="60dp">
 
-    <TextView
-        android:id="@+id/NumberLabel"
+        <TextView
+            android:id="@+id/NameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignStart="@+id/NumberLabel"
+            android:text="Name:"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/NameLabel"
+            android:layout_marginLeft="20dp"
+            android:layout_alignBaseline="@+id/NameLabel"
+            android:ems="10"
+            android:inputType="none|textPersonName" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/number_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_alignTop="@+id/name"
-        android:layout_marginTop="90dp"
-        android:text="Fax Number:"
-        android:textSize="18sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/name_line"
+        android:layout_marginTop="40dp">
+        <TextView
+            android:id="@+id/NumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:text="Fax Number:"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/NameLabel"
-        android:layout_marginLeft="20dp"
-        android:layout_alignBaseline="@+id/NameLabel"
-        android:ems="10"
-        android:inputType="none|textPersonName" />
+        <EditText
+            android:id="@+id/fax_number"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/NumberLabel"
+            android:layout_marginLeft="20dp"
+            android:layout_alignBaseline="@+id/NumberLabel"
+            android:ems="10"
+            android:inputType="none|number" />
 
-    <EditText
-        android:id="@+id/fax_number"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/NumberLabel"
-        android:layout_marginLeft="20dp"
-        android:layout_alignBaseline="@+id/NumberLabel"
-        android:ems="10"
-        android:inputType="none|number" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/saveText"
-        android:clickable="true"
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/saveButton"
-        android:layout_toEndOf="@+id/saveButton"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/save"
-        android:textStyle="bold"
-        android:textSize="20sp" />
-
-    <ImageView
-        android:id="@+id/saveButton"
-        android:clickable="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/title"
-        android:layout_marginLeft="35dp"
-        android:layout_marginBottom="85dp"
-        app:srcCompat="@drawable/green_check" />
+        android:layout_marginBottom="85dp">
+
+        <ImageView
+            android:id="@+id/saveButton"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/green_check" />
+
+        <TextView
+            android:id="@+id/saveText"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/saveButton"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/save"
+            android:textStyle="bold"
+            android:textSize="20sp" />
 
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </RelativeLayout>

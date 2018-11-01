@@ -73,8 +73,8 @@ import java.util.UUID;
 
 public class capture extends AppCompatActivity {
     private static final String TAG = "capture";
-    private Button takePictureButton;
-    private Button back;
+    private ImageView takePictureButton;
+    private ImageView back;
     private TextureView textureView;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
@@ -109,8 +109,8 @@ public class capture extends AppCompatActivity {
         textureView = (TextureView) findViewById(R.id.textureView);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
-        takePictureButton = (Button) findViewById(R.id.capture);
-        back = (Button) findViewById(R.id.Verify);
+        takePictureButton = findViewById(R.id.capture);
+        back = findViewById(R.id.Verify);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -44,44 +44,28 @@
         android:textSize="28sp"
         android:text="@string/common_open_on_phone" />
 
-    <!--<TextView
-        android:id="@+id/name"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="140dp"
-        android:text="@string/name"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/name_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/name"
-        android:layout_toEndOf="@+id/name"
-        android:layout_marginLeft="20dp"
-        android:textSize="18sp"
-        android:text="@string/common_open_on_phone"/>-->
-
-    <TextView
-        android:id="@+id/fax_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/name_value"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="50dp"
-        android:textSize="18sp"
-        android:text="Fax Number"/>
+        android:layout_marginTop="60dp">
 
-    <TextView
-        android:id="@+id/fax_number_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/fax_number"
-        android:layout_toEndOf="@+id/fax_number"
-        android:layout_marginLeft="20dp"
-        android:textSize="18sp"
-        android:text="@string/common_open_on_phone"/>
+        <TextView
+            android:id="@+id/fax_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Fax Number"/>
+
+        <TextView
+            android:id="@+id/fax_number_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="18sp"
+            android:text="@string/common_open_on_phone"/>
+    </LinearLayout>
 
 
     <TextView
