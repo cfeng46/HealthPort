@@ -38,7 +38,9 @@
         <activity android:name=".change_settings" />
         <activity android:name=".change_contact"/>
         <activity android:name=".password_update" />
-        <activity android:name=".exist_pdf"></activity>
+        <activity android:name=".exist_pdf"/>
+        <activity android:name=".select_documents"/>
+        <activity android:name=".send_documents"/>
     </application>
 
 </manifest>

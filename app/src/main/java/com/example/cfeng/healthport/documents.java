@@ -8,6 +8,7 @@ import android.net.http.SslError;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
@@ -38,6 +39,8 @@ public class documents extends AppCompatActivity {
     private List<String> uploadList;
     private FirebaseAuth mAuth;
     private List<String> name;
+    private TextView sendText;
+    private ImageView sendButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class documents extends AppCompatActivity {
         listView = findViewById(R.id.list_view);
         final TextView upload = findViewById(R.id.upload);
         final ImageView addButton = findViewById(R.id.addButton);
+        sendText = findViewById(R.id.share);
+        sendButton = findViewById(R.id.sendButton);
+
         TextView back = findViewById(R.id.go_back);
         ImageView back_arrow = findViewById(R.id.backArrow);
         mAuth = FirebaseAuth.getInstance();
@@ -71,6 +77,7 @@ public class documents extends AppCompatActivity {
 //                    }
 //                });
 //                dialog.show();
+                Log.d("URL", "This is the url:" + url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
             }
@@ -122,6 +129,19 @@ public class documents extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(documents.this, home.class));
+            }
+        });
+
+        sendText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(documents.this, select_documents.class));
+            }
+        });
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(documents.this, select_documents.class));
             }
         });
     }
