@@ -54,7 +54,7 @@ public class contacts_home extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
         DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts");
-        current_user_db.addValueEventListener(
+        current_user_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
