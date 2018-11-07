@@ -99,7 +99,6 @@ public class capture extends AppCompatActivity {
     private StorageReference storage;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
-
     private PdfDocument pdfDoc;
 
     @Override
@@ -251,8 +250,6 @@ public class capture extends AppCompatActivity {
                 }
                 private void save(byte[] bytes) throws IOException {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    //final PdfDocument pdfDocument = new PdfDocument();
-                    Log.d("pages","p" + pdfDoc.getPages().size());
                     int pageNum = pdfDoc.getPages().size() + 1;
                     PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(),pageNum).create();
                     PdfDocument.Page page = pdfDoc.startPage(pi);
