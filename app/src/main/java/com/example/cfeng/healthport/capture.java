@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,12 +42,14 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -64,6 +67,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -363,41 +367,20 @@ public class capture extends AppCompatActivity {
         progressDialog.setTitle("Uploading file....");
         progressDialog.setProgress(0);
         progressDialog.show();
-        final String fileName = System.currentTimeMillis() + "";
+        //final String fileName = System.currentTimeMillis() + "";
         final String uid = mAuth.getCurrentUser().getUid();
+        final StorageReference ref = storage.child("Uploads").child(file_name +".pdf");
+        UploadTask uploadTask = ref.putFile(contentUri);
 
-        storage.child("Uploads").child(fileName).putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
-                Map report = new HashMap();
-                report.put(file_name, url);
-//                database.child(uid).child(profile_name).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-                database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(capture.this, documents.class));
-                        } else {
-                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+        uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();;
+                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -406,6 +389,78 @@ public class capture extends AppCompatActivity {
                 progressDialog.setProgress(currentProgress);
             }
         });
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri  downloadUri = task.getResult();
+                    String url = downloadUri.toString();
+                    Map report = new HashMap();
+                    report.put(file_name, url);
+                    database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(capture.this, documents.class));
+                            } else {
+                                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+//        storage.child("Uploads").child(fileName).putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
+//                Map report = new HashMap();
+//                report.put(file_name, url);
+////                database.child(uid).child(profile_name).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+////                    @Override
+////                    public void onComplete(@NonNull Task<Void> task) {
+////                        if (task.isSuccessful()) {
+////                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+////                        } else {
+////                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+////                        }
+////                    }
+////                });
+//                database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(capture.this, documents.class));
+//                        } else {
+//                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();;
+//            }
+//        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                int currentProgress = (int) (100*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+//                progressDialog.setProgress(currentProgress);
+//            }
+//        });
     }
 
     protected void createCameraPreview() {
