@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.cfeng.healthport.Model.Contact;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -75,16 +76,11 @@ public class send_documents extends AppCompatActivity {
         contactNames = new ArrayList<>();
         contactNumbers = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("contacts");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Contacts");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot contact: dataSnapshot.getChildren()) {
-                    String key = contact.getKey();
-                    String value = contact.getValue(String.class);
-                    contactNames.add(key);
-                    contactNumbers.add(value);
-                }
+                collectContactNames(dataSnapshot.getChildren());
 
 
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_single_choice, contactNames);
@@ -97,5 +93,30 @@ public class send_documents extends AppCompatActivity {
             }
         });
         contact_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
+
+    private void collectContactNames(Iterable<DataSnapshot> contacts) {
+        String k = null;
+        for (DataSnapshot singleContact:contacts) {
+            //Log.e("Stitie",String.valueOf(singleContact.getChildren()));
+            String x = null;
+            String y = null;
+            k = singleContact.getKey();
+            String[] item = k.split("_");
+            String o = null;
+            for (String s : item) {
+                o = s;
+            }
+            for (DataSnapshot b : singleContact.getChildren()) {
+                if (b.getKey().equals("Name")) {
+                    x = String.valueOf(b.getValue());
+                }
+                if (b.getKey().equals("Fax")) {
+                    y = String.valueOf(b.getValue());
+                }
+            }
+            contactNames.add(new Contact(x, y, o).getName());
+
+        }
     }
 }
