@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,12 +42,14 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -64,6 +67,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -99,8 +103,11 @@ public class capture extends AppCompatActivity {
     private StorageReference storage;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
+    private PdfDocument pdfDoc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        int numPages = 3;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
         storage = FirebaseStorage.getInstance().getReference();
@@ -118,10 +125,16 @@ public class capture extends AppCompatActivity {
             }
         });
         assert takePictureButton != null;
+
+        //byte[][] allBytes ;
+        pdfDoc = new PdfDocument();
+        final Dialog dialog = new Dialog(capture.this);
+        dialog.setContentView(R.layout.confirmation_page);
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
+                finished();
             }
         });
     }
@@ -218,6 +231,7 @@ public class capture extends AppCompatActivity {
             //    root.mkdir();
             //}
             //final File file = new File(root, "picture" + UUID.randomUUID().toString() + ".jpg");
+
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
@@ -240,9 +254,9 @@ public class capture extends AppCompatActivity {
                 }
                 private void save(byte[] bytes) throws IOException {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    final PdfDocument pdfDocument = new PdfDocument();
-                    PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(),1).create();
-                    PdfDocument.Page page = pdfDocument.startPage(pi);
+                    int pageNum = pdfDoc.getPages().size() + 1;
+                    PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(),pageNum).create();
+                    PdfDocument.Page page = pdfDoc.startPage(pi);
                     Canvas canvas = page.getCanvas();
                     Paint paint = new Paint();
                     paint.setColor(Color.parseColor("#FFFFFF"));
@@ -252,68 +266,8 @@ public class capture extends AppCompatActivity {
                     paint.setColor(Color.BLUE);
                     canvas.drawBitmap(bitmap,0,0,null);
 
-                    pdfDocument.finishPage(page);
+                    pdfDoc.finishPage(page);
 
-//                    File root = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
-//                    if (!root.exists()) {
-//                        root.mkdir();
-//                    }
-//                    final File file = new File(root, "picture" + UUID.randomUUID().toString() + ".pdf");
-//                    try {
-//                        FileOutputStream fileOutputStream = new FileOutputStream(file);
-//                        pdfDocument.writeTo(fileOutputStream);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    pdfDocument.close();
-                    final Dialog dialog = new Dialog(capture.this);
-                    dialog.setContentView(R.layout.confirmation_page);
-                    ImageView green_check = dialog.findViewById(R.id.yes);
-                    ImageView cancel_cross = dialog.findViewById(R.id.no);
-//                    final EditText profile_name = dialog.findViewById(R.id.profile_name);
-                    final EditText file_name = dialog.findViewById(R.id.file_name);
-                    green_check.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-//                            Uri contentUri = Uri.fromFile(file);
-                            if (!file_name.getText().toString().isEmpty()) {
-                                File root = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
-                                if (!root.exists()) {
-                                    root.mkdir();
-                                }
-                                final File file = new File(root, "picture" + file_name.getText().toString() + ".pdf");
-                                try {
-                                    FileOutputStream fileOutputStream = new FileOutputStream(file);
-                                    pdfDocument.writeTo(fileOutputStream);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                pdfDocument.close();
-                                Uri contentUri = Uri.fromFile(file);
-                                upload(contentUri, file_name.getText().toString());
-                                dialog.dismiss();
-                            } else {
-                                Toast.makeText(capture.this, "Missing information", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                    cancel_cross.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();;
-                        }
-                    });
-                    dialog.show();
-                    /*
-                    OutputStream output = null;
-                    try {
-                        output = new FileOutputStream(file);
-                        output.write(bytes);
-                    } finally {
-                        if (null != output) {
-                            output.close();
-                        }
-                    }*/
                 }
             };
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
@@ -343,6 +297,68 @@ public class capture extends AppCompatActivity {
         }
     }
 
+    private void finished() {
+        final Dialog addDialog = new Dialog(capture.this);
+        addDialog.setContentView(R.layout.add_page);
+        ImageView yesAdd = addDialog.findViewById(R.id.yes);
+        ImageView noAdd = addDialog.findViewById(R.id.no);
+        yesAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDialog.dismiss();
+            }
+        });
+        noAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDialog.dismiss();
+                savePdf();
+            }
+        });
+
+        addDialog.show();
+    }
+
+    private void savePdf() {
+        final Dialog dialog = new Dialog(capture.this);
+        dialog.setContentView(R.layout.confirmation_page);
+        ImageView green_check = dialog.findViewById(R.id.yes);
+        ImageView cancel_cross = dialog.findViewById(R.id.no);
+        final EditText file_name = dialog.findViewById(R.id.file_name);
+        green_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                            Uri contentUri = Uri.fromFile(file);
+                if (!file_name.getText().toString().isEmpty()) {
+                    File root = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
+                    if (!root.exists()) {
+                        root.mkdir();
+                    }
+                    //upload
+                    final File file = new File(root, "picture" + file_name.getText().toString() + ".pdf");
+                    try {
+                        FileOutputStream fileOutputStream = new FileOutputStream(file);
+                        pdfDoc.writeTo(fileOutputStream);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    pdfDoc.close();
+                    Uri contentUri = Uri.fromFile(file);
+                    upload(contentUri, file_name.getText().toString());
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(capture.this, "Missing information", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        cancel_cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();;
+            }
+        });
+        dialog.show();
+    }
 
 
     private void upload(Uri contentUri, final String file_name) {
@@ -351,41 +367,20 @@ public class capture extends AppCompatActivity {
         progressDialog.setTitle("Uploading file....");
         progressDialog.setProgress(0);
         progressDialog.show();
-        final String fileName = System.currentTimeMillis() + "";
+        //final String fileName = System.currentTimeMillis() + "";
         final String uid = mAuth.getCurrentUser().getUid();
+        final StorageReference ref = storage.child("Uploads").child(file_name +".pdf");
+        UploadTask uploadTask = ref.putFile(contentUri);
 
-        storage.child("Uploads").child(fileName).putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
-                Map report = new HashMap();
-                report.put(file_name, url);
-//                database.child(uid).child(profile_name).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-                database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(capture.this, documents.class));
-                        } else {
-                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+        uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();;
+                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -394,6 +389,78 @@ public class capture extends AppCompatActivity {
                 progressDialog.setProgress(currentProgress);
             }
         });
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri  downloadUri = task.getResult();
+                    String url = downloadUri.toString();
+                    Map report = new HashMap();
+                    report.put(file_name, url);
+                    database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(capture.this, documents.class));
+                            } else {
+                                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+//        storage.child("Uploads").child(fileName).putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                String url = taskSnapshot.getStorage().getDownloadUrl().toString();
+//                Map report = new HashMap();
+//                report.put(file_name, url);
+////                database.child(uid).child(profile_name).updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+////                    @Override
+////                    public void onComplete(@NonNull Task<Void> task) {
+////                        if (task.isSuccessful()) {
+////                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+////                        } else {
+////                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+////                        }
+////                    }
+////                });
+//                database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+//                            startActivity(new Intent(capture.this, documents.class));
+//                        } else {
+//                            Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();;
+//            }
+//        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                int currentProgress = (int) (100*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+//                progressDialog.setProgress(currentProgress);
+//            }
+//        });
     }
 
     protected void createCameraPreview() {
