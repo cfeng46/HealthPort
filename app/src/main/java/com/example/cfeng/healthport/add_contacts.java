@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import static java.lang.String.valueOf;
 
 public class add_contacts extends AppCompatActivity {
     private EditText name;
@@ -30,7 +30,7 @@ public class add_contacts extends AppCompatActivity {
     private ArrayList<String> contactsList = new ArrayList<String>();
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-
+    private HashMap<String,String> contactslist = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +42,8 @@ public class add_contacts extends AppCompatActivity {
         TextView saveText = findViewById(R.id.saveText);
         ImageView saveButton = findViewById(R.id.saveButton);
 
-
         name = (EditText) findViewById(R.id.name);
         fax_number = (EditText) findViewById(R.id.fax_number);
-
-
-
 
         saveText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,57 +74,69 @@ public class add_contacts extends AppCompatActivity {
             }
         });
     }
+
     private void new_func() {
         final String newName = name.getText().toString().trim();
         final String faxNumber = fax_number.getText().toString().trim();
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts");
+        final DatabaseReference current_user_db = mDatabase.child(user_id).child("Contacts");
         current_user_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        collectContactNames(dataSnapshot.getChildren());
-                    }
+                        String k = null;
+                        for (DataSnapshot singleContact:dataSnapshot.getChildren()){
+                            String x = null;
+                            String y = null;
+                            for (DataSnapshot b: singleContact.getChildren()) {
+                                if (b.getKey().equals("Name")) {
+                                    x = String.valueOf(b.getValue());
+                                }
+                                if (b.getKey().equals("Fax")) {
+                                    y = String.valueOf(b.getValue());
+                                }
+                            }
+                            contactslist.put(String.valueOf(x), String.valueOf(y));
+                            k = singleContact.getKey();
+                        }
+                        String[] item = k.split("_");
+                        String o = null;
+                        for (String s: item) {
+                            o = s;
+                        }
 
+                        if (newName.isEmpty() || faxNumber.isEmpty()) {
+                            Toast.makeText(add_contacts.this,"You miss important information", Toast.LENGTH_SHORT).show();
+                        }
+                        if (faxNumber.length() > 10) {
+                            Toast.makeText(add_contacts.this,"Your fax number is invalid", Toast.LENGTH_SHORT).show();
+                        }
+                        if (contactslist.containsKey(newName)) {
+                            //Log.e("true or false", String.valueOf(contactsList.contains(newName)));
+                            Toast.makeText(add_contacts.this,"This contact already exists", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int a = Integer.valueOf(o)+1;
+                            //Log.e("size",String.valueOf(a));
+                            DatabaseReference addvalue = current_user_db.child("contact_" + valueOf(a));
+                            addvalue.child("Name").setValue(newName);
+                            addvalue.child("Fax").setValue(faxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(add_contacts.this, "New Contact Added", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(add_contacts.this, contacts_home.class));
+                                    }
+                                }
+                            });
+                        }
+
+                    }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         //handle databaseError
                     }
                 });
-        for (String member : contactsList){
-            Log.i("Member name: ", member);
-        }
-
-        if (newName.isEmpty() || faxNumber.isEmpty()) {
-            Toast.makeText(add_contacts.this,"You miss important information", Toast.LENGTH_SHORT).show();
-        } else if (faxNumber.length() > 10) {
-            Toast.makeText(add_contacts.this,"Your fax number is invalid", Toast.LENGTH_SHORT).show();
-
-        } else if (contactsList.contains(newName)) {
-            Toast.makeText(add_contacts.this,"This contact already exists", Toast.LENGTH_SHORT).show();
-        } else {
-            mDatabase.child(user_id).child("contacts").child(newName).setValue(faxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(add_contacts.this, "New Contact Added", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(add_contacts.this, contacts_home.class));
-                    }
-                }
-
-            });
-        }
-
-
     }
-    private void collectContactNames(Iterable<DataSnapshot> contacts) {
-
-        for (DataSnapshot singleContact: contacts){
-            contactsList.add((String) singleContact.getKey());
-        }
-
-    }
-
 }

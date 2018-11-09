@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.example.cfeng.healthport.Model.Contact;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private static ArrayList<Contact> contacts;
+    //private int position = 0;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -27,18 +27,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             mTextView = v;
 
             itemView.setOnClickListener(new View.OnClickListener() {
+                public String position;
+
                 @Override
                 public void onClick(View v) {
                     contact.setContactName((String) mTextView.getText());
+                    String abc = null;
                     for (Contact c : contacts) {
                         if (c.getName().equals(mTextView.getText())) {
                             contact.setContactNumber(c.getNumber());
+                            position = c.getPosition();
+                            abc = new String(c.getNumber());
                         }
                     }
-
                     Context context = v.getContext();
                     Intent intent = new Intent(context, contact.class);
-                    intent.putExtra("contact_name", mTextView.getText());
+                    intent.putExtra("contact_name", position +","+ mTextView.getText()+":"+abc);
                     context.startActivity(intent);
                 }
             });
