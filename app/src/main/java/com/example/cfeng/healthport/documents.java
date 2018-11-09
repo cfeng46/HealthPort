@@ -1,16 +1,25 @@
 package com.example.cfeng.healthport;
 
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -20,14 +29,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,23 +83,60 @@ public class documents extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String url = uploadList.get(i);
-//                final Dialog dialog = new Dialog(documents.this);
-//                dialog.setContentView(R.layout.pdf_viewer);
-//                Button dismiss = findViewById(R.id.close_window);
-////                WebView wv = findViewById(R.id.view);
-//////                wv.loadUrl(url);
-//                dismiss.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                dialog.show();
-                Log.d("URL", "This is the url:" + url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(intent);
+                final String url = uploadList.get(i);
+                final String file_name = name.get(i);
+                final Dialog dialog = new Dialog(documents.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                LayoutInflater m_inflater = LayoutInflater.from(documents.this);
+                View m_view = m_inflater.inflate(R.layout.pdf_viewer, null);
+                Button dismiss = m_view.findViewById(R.id.close);
+                Button download = m_view.findViewById(R.id.download);
+                WebView wv = m_view.findViewById(R.id.view);
+                wv.setWebViewClient(new WebViewClient());
+                try {
+                    String encode_url = URLEncoder.encode(url, "UTF-8");
+                    wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+ encode_url);
+                }catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
+                wv.getSettings().setSupportZoom(true);
+                wv.getSettings().setMinimumFontSize(30);
+                wv.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+                wv.getSettings().setCacheMode(android.webkit.WebSettings.LOAD_NO_CACHE);
+                wv.getSettings().setDefaultTextEncodingName("UTF-8");
+                wv.getSettings().setJavaScriptEnabled(true);
+                wv.getSettings().setDatabaseEnabled(true);
+                wv.getSettings().setDomStorageEnabled(true);
+                wv.getSettings().setAllowFileAccess(true);
+                wv.getSettings().setUseWideViewPort(true);
+                wv.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                wv.getSettings().setLoadWithOverviewMode(true);
+                wv.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+
+                download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        downloadFile(file_name);
+                        dialog.dismiss();
+                    }
+                });
+                dismiss.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.setContentView(m_view);
+                dialog.show();
+//                Log.d("URL", "This is the url:" + url);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                startActivity(intent);
             }
+
+
+
         });
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
@@ -146,17 +202,28 @@ public class documents extends AppCompatActivity {
         });
     }
 
-//    private void dialog() {
-//        final Dialog log = new Dialog(documents.this);
-//        log.setContentView(R.layout.pdf_viewer);
-//        Button close = findViewById(R.id.close_window);
-//        close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                log.dismiss();
-//            }
-//        });
-//        log.show();
-//    }
+    private void downloadFile(String file_name) {
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        final StorageReference storageReference = firebaseStorage.getReferenceFromUrl("gs://healthport-7d48b.appspot.com");
+        StorageReference childReference = storageReference.child("Uploads");
+        StorageReference file = childReference.child(file_name+".pdf");
+        File rootPath = new File(Environment.getExternalStorageDirectory(), "PDF Folder");
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+
+        final File localFile = new File(rootPath, file_name+".pdf");
+        file.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(documents.this, "Saved", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(documents.this, "failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }
