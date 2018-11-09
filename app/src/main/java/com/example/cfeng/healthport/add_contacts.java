@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static java.lang.String.valueOf;
@@ -27,7 +27,7 @@ import static java.lang.String.valueOf;
 public class add_contacts extends AppCompatActivity {
     private EditText name;
     private EditText fax_number;
-    private ArrayList<String> contactsList = new ArrayList<String>();
+    //private ArrayList<String> contactsList = new ArrayList<String>();
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private HashMap<String,String> contactslist = new HashMap<>();
@@ -87,12 +87,16 @@ public class add_contacts extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String k = null;
+                        int h = 0;
                         for (DataSnapshot singleContact:dataSnapshot.getChildren()){
                             String x = null;
                             String y = null;
+                            Log.e("dkdkdkdkd",String.valueOf(singleContact));
                             for (DataSnapshot b: singleContact.getChildren()) {
+
                                 if (b.getKey().equals("Name")) {
                                     x = String.valueOf(b.getValue());
+                                    h = 1;
                                 }
                                 if (b.getKey().equals("Fax")) {
                                     y = String.valueOf(b.getValue());
@@ -101,10 +105,16 @@ public class add_contacts extends AppCompatActivity {
                             contactslist.put(String.valueOf(x), String.valueOf(y));
                             k = singleContact.getKey();
                         }
-                        String[] item = k.split("_");
-                        String o = null;
-                        for (String s: item) {
-                            o = s;
+                        int a = 0;
+                        if (contactslist.size() == 0) {
+                            a = 0;
+                        } else {
+                            String[] item = k.split("_");
+                            String o = null;
+                            for (String s: item) {
+                                o = s;
+                            }
+                            a = Integer.valueOf(o)+1;
                         }
 
                         if (newName.isEmpty() || faxNumber.isEmpty()) {
@@ -117,8 +127,6 @@ public class add_contacts extends AppCompatActivity {
                             //Log.e("true or false", String.valueOf(contactsList.contains(newName)));
                             Toast.makeText(add_contacts.this,"This contact already exists", Toast.LENGTH_SHORT).show();
                         } else {
-                            int a = Integer.valueOf(o)+1;
-                            //Log.e("size",String.valueOf(a));
                             DatabaseReference addvalue = current_user_db.child("contact_" + valueOf(a));
                             addvalue.child("Name").setValue(newName);
                             addvalue.child("Fax").setValue(faxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
