@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
 import android.graphics.pdf.PdfDocument;
@@ -26,6 +27,7 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
@@ -244,15 +246,19 @@ public class capture extends AppCompatActivity {
                 }
                 private void save(byte[] bytes) throws IOException {
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    Log.d("here", "width" + bitmap.getWidth());
+                    Log.d("here", "width" + bitmap.getHeight());
                     final PdfDocument pdfDocument = new PdfDocument();
-                    PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(),1).create();
+                    PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getHeight(), bitmap.getWidth(),1).create();
                     PdfDocument.Page page = pdfDocument.startPage(pi);
                     Canvas canvas = page.getCanvas();
                     Paint paint = new Paint();
                     paint.setColor(Color.parseColor("#FFFFFF"));
                     canvas.drawPaint(paint);
 
-                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                    Matrix mat = new Matrix();
+                    mat.postRotate(90);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
                     paint.setColor(Color.BLUE);
                     canvas.drawBitmap(bitmap,0,0,null);
 
