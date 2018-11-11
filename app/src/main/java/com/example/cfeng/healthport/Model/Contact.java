@@ -4,10 +4,12 @@ public class Contact {
 
     private String name;
     private String number;
+    private String position;
 
-    public Contact(String name, String number) {
+    public Contact(String name, String number,String position) {
         this.name = name;
         this.number = number;
+        this.position = position;
     }
 
     public String getName() {
@@ -17,5 +19,7 @@ public class Contact {
     public String getNumber() {
         return number;
     }
+
+    public String getPosition(){return position;}
 
 }

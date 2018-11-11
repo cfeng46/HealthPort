@@ -20,8 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class contacts_home extends AppCompatActivity {
@@ -53,7 +51,7 @@ public class contacts_home extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts");
+        DatabaseReference current_user_db = mDatabase.child(user_id).child("Contacts");
         current_user_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -103,25 +101,32 @@ public class contacts_home extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
         Log.d(TAG, "onCreate: started");
-
-
     }
 
     private void collectContactNames(Iterable<DataSnapshot> contacts) {
+        String k = null;
+        for (DataSnapshot singleContact:contacts) {
+            //Log.e("Stitie",String.valueOf(singleContact.getChildren()));
+            String x = null;
+            String y = null;
+            k = singleContact.getKey();
+            String[] item = k.split("_");
+            String o = null;
+            for (String s : item) {
+                o = s;
+            }
+            for (DataSnapshot b : singleContact.getChildren()) {
+                if (b.getKey().equals("Name")) {
+                    x = String.valueOf(b.getValue());
+                }
+                if (b.getKey().equals("Fax")) {
+                    y = String.valueOf(b.getValue());
+                }
+            }
+            contactsList.add(new Contact(x, y, o));
 
-        for (DataSnapshot singleContact: contacts){
-
-            //Get name
-            contactsList.add(new Contact((String) singleContact.getKey(), (String) singleContact.getValue()));
         }
-
-        Log.d("PRINTNAMES", contactsList.toString());
-
     }
 
 }
