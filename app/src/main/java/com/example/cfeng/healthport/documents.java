@@ -1,31 +1,20 @@
 package com.example.cfeng.healthport;
 
 import android.app.Dialog;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,21 +30,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class documents extends AppCompatActivity {
 
     private ListView listView;
     private DatabaseReference databaseReference;
-    private List<String> uploadList;
+    private ArrayList<String> urls;
     private FirebaseAuth mAuth;
     private List<String> name;
     private TextView sendText;
@@ -66,7 +53,7 @@ public class documents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_documents);
 
-        uploadList = new ArrayList<>();
+        urls = new ArrayList<>();
         name = new ArrayList<>();
         listView = findViewById(R.id.list_view);
         final TextView upload = findViewById(R.id.upload);
@@ -83,7 +70,7 @@ public class documents extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                final String url = uploadList.get(i);
+                final String url = urls.get(i);
                 final String file_name = name.get(i);
                 final Dialog dialog = new Dialog(documents.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -147,7 +134,7 @@ public class documents extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     String value = postSnapshot.getValue(String.class);
                     name.add(key);
-                    uploadList.add(value);
+                    urls.add(value);
                 }
 
 
@@ -181,6 +168,7 @@ public class documents extends AppCompatActivity {
                 startActivity(new Intent(documents.this, home.class));
             }
         });
+
         back_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,13 +179,22 @@ public class documents extends AppCompatActivity {
         sendText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(documents.this, select_documents.class));
+                Intent intent = new Intent(documents.this, select_documents.class);
+                Bundle b = new Bundle();
+                b.putStringArrayList("urls", urls);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(documents.this, select_documents.class));
+                Intent intent = new Intent(documents.this, select_documents.class);
+                Bundle b = new Bundle();
+                b.putStringArrayList("urls", urls);
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
     }

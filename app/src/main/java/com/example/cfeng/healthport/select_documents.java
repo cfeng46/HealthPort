@@ -26,6 +26,7 @@ public class select_documents extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private DatabaseReference databaseReference;
     private List<String> docList;
+    private ArrayList<String> urls;
     private FirebaseAuth mAuth;
     private List<String> docNames;
     private ImageView cancelX;
@@ -36,6 +37,11 @@ public class select_documents extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_documents);
+
+        Bundle b = getIntent().getExtras();
+        if(b != null) {
+            urls = b.getStringArrayList("urls");
+        }
 
         docList = new ArrayList<>();
         docNames = new ArrayList<>();
@@ -74,7 +80,6 @@ public class select_documents extends AppCompatActivity {
                     docList.add(value);
                 }
 
-
                 adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_multiple_choice, docNames);
                 listView.setAdapter(adapter);
             }
@@ -101,6 +106,7 @@ public class select_documents extends AppCompatActivity {
                 Intent intent = new Intent(select_documents.this, send_documents.class);
                 Bundle b = new Bundle();
                 b.putStringArrayList("documents", selectedItems);
+                b.putStringArrayList("urls", urls);
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -120,6 +126,7 @@ public class select_documents extends AppCompatActivity {
                 Intent intent = new Intent(select_documents.this, send_documents.class);
                 Bundle b = new Bundle();
                 b.putStringArrayList("documents", selectedItems);
+                b.putStringArrayList("urls", urls);
                 intent.putExtras(b);
                 startActivity(intent);
             }
