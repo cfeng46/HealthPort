@@ -1,38 +1,29 @@
 package com.example.cfeng.healthport;
 
 import android.app.Dialog;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.net.http.SslError;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,14 +32,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class documents extends AppCompatActivity {
@@ -91,6 +80,7 @@ public class documents extends AppCompatActivity {
                 View m_view = m_inflater.inflate(R.layout.pdf_viewer, null);
                 Button dismiss = m_view.findViewById(R.id.close);
                 Button download = m_view.findViewById(R.id.download);
+                Button delete = m_view.findViewById(R.id.Delete);
                 WebView wv = m_view.findViewById(R.id.view);
                 wv.setWebViewClient(new WebViewClient());
                 try {
@@ -119,6 +109,13 @@ public class documents extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         downloadFile(file_name);
+                        dialog.dismiss();
+                    }
+                });
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteFile(file_name);
                         dialog.dismiss();
                     }
                 });
@@ -224,6 +221,21 @@ public class documents extends AppCompatActivity {
                 Toast.makeText(documents.this, "failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public boolean deleteFile(String file_name) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
+        databaseReference.child(file_name).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(documents.this, "Document is deleted.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(documents.this, documents.class));
+                }
+            }
+        });
+        return false;
     }
 
 }
