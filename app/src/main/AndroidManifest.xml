@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".home" />
         <activity android:name=".register" />
-        <activity android:name=".profile" />
+        <activity android:name=".inbox" />
         <activity android:name=".uploads" />
         <activity android:name=".documents" />
         <activity android:name=".contacts_home" />

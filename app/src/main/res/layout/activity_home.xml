@@ -28,7 +28,7 @@
         android:id="@+id/contacts"
         android:layout_width="133dp"
         android:layout_height="120dp"
-        android:layout_alignTop="@+id/profile"
+        android:layout_alignTop="@+id/inbox"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
         android:drawableTop="@drawable/contacts"
@@ -37,7 +37,7 @@
         android:textAlignment="center" />
 
     <Button
-        android:id="@+id/profile"
+        android:id="@+id/inbox"
         android:layout_width="133dp"
         android:layout_height="120dp"
         android:layout_alignTop="@+id/documents"

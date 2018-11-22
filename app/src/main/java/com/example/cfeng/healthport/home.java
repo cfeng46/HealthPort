@@ -17,7 +17,7 @@ public class home extends AppCompatActivity {
 
         ImageView signout = findViewById(R.id.signout);
         TextView signoutText = findViewById(R.id.signout_text);
-        final Button profile = (Button) findViewById(R.id.profile);
+        final Button inbox = (Button) findViewById(R.id.inbox);
         Button docs = (Button) findViewById(R.id.documents);
         Button setting = (Button) findViewById(R.id.settings);
         Button contacts = (Button) findViewById(R.id.contacts);
@@ -53,10 +53,10 @@ public class home extends AppCompatActivity {
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener() {
+        inbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(home.this, profile.class));
+                startActivity(new Intent(home.this, inbox.class));
                 finish();
             }
         });
