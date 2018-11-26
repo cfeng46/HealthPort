@@ -64,6 +64,9 @@ public class inbox extends AppCompatActivity {
         backText = findViewById(R.id.backText);
         listView = findViewById(R.id.list_view);
 
+        docNames = new ArrayList<>();
+        faxedDocs = new ArrayList<>();
+
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid();
 
