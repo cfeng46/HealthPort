@@ -15,6 +15,9 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private static ArrayList<Contact> contacts;
+
+
+
     //private int position = 0;
 
     // Provide a reference to the views for each data item
@@ -25,7 +28,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public MyViewHolder(TextView v) {
             super(v);
             mTextView = v;
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 public String position;
 
@@ -48,6 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             });
         }
     }
+
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter(ArrayList<Contact> dataset) {

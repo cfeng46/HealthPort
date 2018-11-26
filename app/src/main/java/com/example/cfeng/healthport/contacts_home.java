@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cfeng.healthport.Model.Contact;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +49,7 @@ public class contacts_home extends AppCompatActivity {
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
         EditText searchBar = findViewById(R.id.searchBar);
-        searchBar.requestFocus();
+        //searchBar.requestFocus();
 
         //Get all contact names
         mAuth = FirebaseAuth.getInstance();
@@ -101,9 +105,38 @@ public class contacts_home extends AppCompatActivity {
                 finish();
             }
         });
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String charString = charSequence.toString();
+                if (!charString.isEmpty()) {
+                    ArrayList<Contact>  newList = new ArrayList<>();
+                    for (Contact row : contactsList) {
+                        if (row.getName().toLowerCase().contains(charString)) {
+                            newList.add(row);
+                        }
+                    }
+                    mAdapter = new MyAdapter(newList);
+                    rcvListMessage.setAdapter(mAdapter);
+                } else {
+                    mAdapter = new MyAdapter(contactsList);
+                    rcvListMessage.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         Log.d(TAG, "onCreate: started");
     }
-
     private void collectContactNames(Iterable<DataSnapshot> contacts) {
         String k = null;
         for (DataSnapshot singleContact:contacts) {
