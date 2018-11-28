@@ -13,6 +13,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -60,6 +63,8 @@ public class documents extends AppCompatActivity {
     private List<String> name;
     private TextView sendText;
     private ImageView sendButton;
+    private EditText search;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +78,7 @@ public class documents extends AppCompatActivity {
         final ImageView addButton = findViewById(R.id.addButton);
         sendText = findViewById(R.id.share);
         sendButton = findViewById(R.id.sendButton);
+        search = findViewById(R.id.searchBar);
 
         TextView back = findViewById(R.id.go_back);
         ImageView back_arrow = findViewById(R.id.backArrow);
@@ -130,9 +136,6 @@ public class documents extends AppCompatActivity {
                 });
                 dialog.setContentView(m_view);
                 dialog.show();
-//                Log.d("URL", "This is the url:" + url);
-//                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                startActivity(intent);
             }
 
 
@@ -151,7 +154,7 @@ public class documents extends AppCompatActivity {
                 }
 
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, name);
+                adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, name);
                 listView.setAdapter(adapter);
             }
 
@@ -198,6 +201,22 @@ public class documents extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(documents.this, select_documents.class));
+            }
+        });
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                documents.this.adapter.getFilter().filter(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
