@@ -85,6 +85,8 @@ public class documents extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid();
 
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -97,6 +99,7 @@ public class documents extends AppCompatActivity {
                 View m_view = m_inflater.inflate(R.layout.pdf_viewer, null);
                 Button dismiss = m_view.findViewById(R.id.close);
                 Button download = m_view.findViewById(R.id.download);
+                Button editDoc = m_view.findViewById(R.id.editDoc);
                 WebView wv = m_view.findViewById(R.id.view);
                 wv.setWebViewClient(new WebViewClient());
                 try {
@@ -134,6 +137,17 @@ public class documents extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+                editDoc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(documents.this, edit_document.class);
+                        intent.putExtra("doc_name", file_name);
+                        dialog.dismiss();
+                        startActivity(intent);
+                        //finish();
+                    }
+                });
+
                 dialog.setContentView(m_view);
                 dialog.show();
             }
@@ -147,10 +161,11 @@ public class documents extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    String value = postSnapshot.getValue(String.class);
-                    name.add(key);
-                    uploadList.add(value);
+                    //Log.e("bb",  " " + dataSnapshot.getChildrenCount());
+                    String nameString = postSnapshot.child("DocName").getValue(String.class);
+                    String urlString = postSnapshot.child("URL").getValue(String.class);
+                    name.add(nameString);
+                    uploadList.add(urlString);
                 }
 
 
@@ -163,6 +178,18 @@ public class documents extends AppCompatActivity {
 
             }
         });
+
+//        currentUserDocs.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // get total available quest
+//                Log.e("bb",  " " + dataSnapshot.getChildrenCount());
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override

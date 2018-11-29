@@ -57,8 +57,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -359,7 +362,7 @@ public class capture extends AppCompatActivity {
         cancel_cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.dismiss();;
+                dialog.dismiss();
             }
         });
         dialog.show();
@@ -376,6 +379,8 @@ public class capture extends AppCompatActivity {
         final String uid = mAuth.getCurrentUser().getUid();
         final StorageReference ref = storage.child("Uploads").child(file_name +".pdf");
         UploadTask uploadTask = ref.putFile(contentUri);
+        final DatabaseReference documents = database.child(uid).child("profile");
+
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -408,21 +413,52 @@ public class capture extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri  downloadUri = task.getResult();
-                    String url = downloadUri.toString();
-                    Map report = new HashMap();
-                    report.put(file_name, url);
-                    database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    final String url = downloadUri.toString();
+//                    Map report = new HashMap();
+//                    report.put(file_name, url);
+                    String num;
+                    documents.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(capture.this, documents.class));
-                            } else {
-                                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-                            }
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            DatabaseReference addDoc = documents.child("doc_"+dataSnapshot.getChildrenCount());
+                            addDoc.child("DocName").setValue(file_name);
+                            addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(capture.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(capture.this, documents.class));
+                                    } else {
+                                        Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
                         }
                     });
                 }
+//                if (task.isSuccessful()) {
+//                    Uri  downloadUri = task.getResult();
+//                    String url = downloadUri.toString();
+//                    Map report = new HashMap();
+//                    report.put(file_name, url);
+//                    database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            if (task.isSuccessful()) {
+//                                Toast.makeText(capture.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+//                                startActivity(new Intent(capture.this, documents.class));
+//                            } else {
+//                                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
             }
         });
 
