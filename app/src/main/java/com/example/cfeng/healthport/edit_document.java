@@ -116,7 +116,18 @@ public class edit_document extends AppCompatActivity {
         if (updatedDocName.isEmpty()) {
             Toast.makeText(edit_document.this,"Please type a file name", Toast.LENGTH_SHORT).show();
         } else {
-            mDatabase.child(user_id).child("profile").child(currentDocID).child("DocName").setValue(updatedDocName);
+            mDatabase.child(user_id).child("profile").child(currentDocID).child("DocName").setValue(updatedDocName).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(edit_document.this, "Document Name Updated", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(edit_document.this, documents.class);
+                        startActivity(intent);
+                    }
+                }
+
+            });
+
             //current_user_db.child("contact_"+Integer.valueOf(position)).removeValue();
 //            current_user_db.child("contact_"+Integer.valueOf(position)).child("Name").setValue(updatedContactName);
 //            current_user_db.child("contact_"+Integer.valueOf(position)).child("Fax").setValue(updatedFaxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {

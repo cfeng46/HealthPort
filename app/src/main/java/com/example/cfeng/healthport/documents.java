@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -97,11 +98,13 @@ public class documents extends AppCompatActivity {
                 final String file_name = name.get(i);
                 final Dialog dialog = new Dialog(documents.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+/*                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
                 LayoutInflater m_inflater = LayoutInflater.from(documents.this);
                 View m_view = m_inflater.inflate(R.layout.pdf_viewer, null);
-                Button dismiss = m_view.findViewById(R.id.close);
-                Button download = m_view.findViewById(R.id.download);
-                Button editDoc = m_view.findViewById(R.id.editDoc);
+                ImageButton dismiss = m_view.findViewById(R.id.close);
+                TextView download = m_view.findViewById(R.id.download);
+                TextView editDoc = m_view.findViewById(R.id.editDoc);
                 WebView wv = m_view.findViewById(R.id.view);
                 wv.setWebViewClient(new WebViewClient());
                 Log.d("tttt", "okay");
