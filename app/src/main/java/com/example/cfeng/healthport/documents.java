@@ -96,7 +96,7 @@ public class documents extends AppCompatActivity {
 
                 final String url = uploadList.get(i);
                 final String file_name = name.get(i);
-                final Dialog dialog = new Dialog(documents.this);
+                final Dialog dialog = new Dialog(documents.this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 /*                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                         WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
