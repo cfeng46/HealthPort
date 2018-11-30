@@ -229,32 +229,45 @@ public class photo extends AppCompatActivity {
                     final String url = downloadUri.toString();
                     Map report = new HashMap();
                     report.put(file_name, url);
-                    String num;
-                    documents.addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference addDoc = documents.push();
+                    addDoc.child("DocName").setValue(file_name);
+                    addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            DatabaseReference addDoc = documents.child("doc_"+dataSnapshot.getChildrenCount());
-                            addDoc.child("DocName").setValue(file_name);
-                            addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(photo.this, "File Uploaded", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(photo.this, documents.class));
-                                        finish();
-                                    } else {
-                                        Toast.makeText(photo.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(photo.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(photo.this, documents.class));
+                            } else {
+                                Toast.makeText(photo.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
+
+//                    documents.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                            DatabaseReference addDoc = documents.child("doc_"+dataSnapshot.getChildrenCount());
+//                            addDoc.child("DocName").setValue(file_name);
+//                            addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(photo.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+//                                        startActivity(new Intent(photo.this, documents.class));
+//                                        finish();
+//                                    } else {
+//                                        Toast.makeText(photo.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
                 }
             }
         });

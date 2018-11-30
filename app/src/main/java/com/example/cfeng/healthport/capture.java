@@ -412,36 +412,52 @@ public class capture extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    Uri  downloadUri = task.getResult();
+                    Uri downloadUri = task.getResult();
                     final String url = downloadUri.toString();
 //                    Map report = new HashMap();
 //                    report.put(file_name, url);
                     String num;
-                    documents.addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference addDoc = documents.push();
+                    addDoc.child("DocName").setValue(file_name);
+                    addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            DatabaseReference addDoc = documents.child("doc_"+dataSnapshot.getChildrenCount());
-                            addDoc.child("DocName").setValue(file_name);
-                            addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(capture.this, "File Uploaded", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(capture.this, documents.class));
-                                    } else {
-                                        Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(capture.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(capture.this, documents.class));
+                            } else {
+                                Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }
+            }
+
+//                    documents.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                            DatabaseReference addDoc = documents.child("doc_"+dataSnapshot.getChildrenCount());
+//                            addDoc.child("DocName").setValue(file_name);
+//                            addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(capture.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+//                                        startActivity(new Intent(capture.this, documents.class));
+//                                    } else {
+//                                        Toast.makeText(capture.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                }
 //                if (task.isSuccessful()) {
 //                    Uri  downloadUri = task.getResult();
 //                    String url = downloadUri.toString();
@@ -459,7 +475,7 @@ public class capture extends AppCompatActivity {
 //                        }
 //                    });
 //                }
-            }
+//            }
         });
 
 //        storage.child("Uploads").child(fileName).putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

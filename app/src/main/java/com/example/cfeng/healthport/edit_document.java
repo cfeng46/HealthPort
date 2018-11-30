@@ -2,6 +2,7 @@ package com.example.cfeng.healthport;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,20 +34,38 @@ public class edit_document extends AppCompatActivity {
     private String sp;
     private String sp_name;
     private String sp_fax;
-    private String currentDocName;
+    private String currentDocID;
     private ArrayList<String> data;
     private String savedData;
+    private DatabaseReference currentDoc;
+    private String user_id;
+    private  String currentDocName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_document);
         //data = getIncomingIntent();
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        user_id = mAuth.getCurrentUser().getUid();
 
         doc_name_box = findViewById(R.id.docName_type);
-        currentDocName = getIncomingIntent();
-        Log.d("docName", currentDocName);
-        doc_name_box.setText(currentDocName);
+        currentDocID = getIncomingIntent();
+        Log.d("DocID", currentDocID);
+        currentDoc = mDatabase.child(user_id).child("profile").child(currentDocID).child("DocName");
+        currentDoc.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                currentDocName = dataSnapshot.getValue().toString();
+                doc_name_box.setText(currentDocName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("ohno", "canceled");
+            }
+        });
 
         TextView cancelText = findViewById(R.id.cancelText);
         ImageView cancelIcon = findViewById(R.id.cancelX);
@@ -57,14 +76,14 @@ public class edit_document extends AppCompatActivity {
         saveText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //update();
+                update();
             }
         });
 
         saveIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //update();
+                update();
             }
         });
 
@@ -87,67 +106,43 @@ public class edit_document extends AppCompatActivity {
 
 
     }
-//    private void update() {
-//        final String updatedDocName = doc_name_box.getText().toString().trim();
+    private void update() {
+        final String updatedDocName = doc_name_box.getText().toString().trim();
 //        mAuth = FirebaseAuth.getInstance();
 //        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 //        String user_id = mAuth.getCurrentUser().getUid();
-//        final DatabaseReference current_user_docs = mDatabase.child(user_id).child("profile");
-//
-//        if (updatedDocName.isEmpty()) {
-//            Toast.makeText(edit_document.this,"Please type a file name", Toast.LENGTH_SHORT).show();
-//        } else {
-//            //current_user_db.child("contact_"+Integer.valueOf(position)).removeValue();
-//            DatabaseReference currentDoc = current_user_docs.child(currentDocName);
-//            //String savedData;
-//            currentDoc.addListenerForSingleValueEvent(Anew ValueEventListener() {
+        final DatabaseReference current_user_docs = mDatabase.child(user_id).child("profile");
+
+        if (updatedDocName.isEmpty()) {
+            Toast.makeText(edit_document.this,"Please type a file name", Toast.LENGTH_SHORT).show();
+        } else {
+            mDatabase.child(user_id).child("profile").child(currentDocID).child("DocName").setValue(updatedDocName);
+            //current_user_db.child("contact_"+Integer.valueOf(position)).removeValue();
+//            current_user_db.child("contact_"+Integer.valueOf(position)).child("Name").setValue(updatedContactName);
+//            current_user_db.child("contact_"+Integer.valueOf(position)).child("Fax").setValue(updatedFaxNumber).addOnCompleteListener(new OnCompleteListener<Void>() {
 //                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    String value = (String) dataSnapshot.getValue();
-//                    savedData = value;
-//                    Log.d("okay", "okay");
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    if (task.isSuccessful()) {
+//                        Toast.makeText(change_contact.this, "Contact Updated", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(change_contact.this, contact.class);
+//                        intent.putExtra("contact_name", position+","+updatedContactName+":"+updatedFaxNumber);
+//                        startActivity(intent);
+//                    }
 //                }
 //
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                    Log.d("not okay", "not okay");
-//
-//                }
 //            });
-//            Log.d("bobo", savedData);
-//
-//        }
-//    }
+            //Log.d("bobo", savedData);
+
+        }
+    }
 
     private String getIncomingIntent() {
-        if (getIntent().hasExtra("doc_name")) {
-            String docName = getIntent().getStringExtra("doc_name");
-            Log.d("doc", docName);
+        if (getIntent().hasExtra("doc_id")) {
+            String doc_id = getIntent().getStringExtra("doc_id");
+            Log.d("docID", doc_id);
 
-            return docName;
-            //String[] items_1 = contactName.split(",");
-//            for(String temp:items_1) {
-//                if(position == null) {
-//                    position = temp;
-//                } else{
-//                    sp = temp;
-//                }
-//            }
-//            String[] items_2 = sp.split(":");
-//            for(String temp:items_2) {
-//                if(sp_name == null) {
-//                    sp_name = temp;
-//                } else{
-//                    sp_fax = temp;
-//                }
-//            }
-//            ArrayList<String> a = new ArrayList<>();
-//            a.add(position);
-//            a.add(sp_name);
-//            a.add(sp_fax);
-//            doc_name_box = findViewById(R.id.docName_type);
-//            doc_name_box.setText(sp_name);
-//            return(a);
+            return doc_id;
+
         }
         else {
             Log.d("zeep", "zeep");

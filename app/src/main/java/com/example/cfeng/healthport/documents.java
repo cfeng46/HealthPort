@@ -41,6 +41,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -85,6 +86,7 @@ public class documents extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid();
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,6 +104,7 @@ public class documents extends AppCompatActivity {
                 Button editDoc = m_view.findViewById(R.id.editDoc);
                 WebView wv = m_view.findViewById(R.id.view);
                 wv.setWebViewClient(new WebViewClient());
+                Log.d("tttt", "okay");
                 try {
                     String encode_url = URLEncoder.encode(url, "UTF-8");
                     wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+ encode_url);
@@ -124,6 +127,23 @@ public class documents extends AppCompatActivity {
                 wv.getSettings().setLoadWithOverviewMode(true);
                 wv.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
+//                final DatabaseReference documents = database.child(uid).child("profile");
+
+//                {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+//                            String key = ds.getKey();
+//                            Log.d("beep", key);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        //Log.d(TAG, databaseError.getMessage());
+//                    }
+//                };
+
                 download.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -140,11 +160,28 @@ public class documents extends AppCompatActivity {
                 editDoc.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(documents.this, edit_document.class);
-                        intent.putExtra("doc_name", file_name);
-                        dialog.dismiss();
-                        startActivity(intent);
-                        //finish();
+                        final Intent intent = new Intent(documents.this, edit_document.class);
+                        Log.d("tttt", "ok");
+                        Query query = databaseReference.orderByChild("DocName").equalTo(file_name);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    String key = ds.getKey();
+                                    Log.d("ttttohno", key);
+                                    intent.putExtra("doc_id", key);
+                                    dialog.dismiss();
+                                    startActivity(intent);
+                                }
+                            }
+    //
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("ohno", databaseError.getMessage());
+                            }
+                        });
+//                        dialog.dismiss();
+//                        startActivity(intent);
                     }
                 });
 
@@ -156,7 +193,6 @@ public class documents extends AppCompatActivity {
 
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
