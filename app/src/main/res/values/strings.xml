@@ -37,5 +37,6 @@
     <string name="searchDocument">Search Document</string>
     <string name="upload">Add a Document</string>
     <string name="add_page">Add more pages?</string>
+    <string name="inbox">Inbox</string>
 
 </resources>
