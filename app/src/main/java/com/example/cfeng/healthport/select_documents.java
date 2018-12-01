@@ -108,7 +108,7 @@ public class select_documents extends AppCompatActivity {
                     }
                 }
 
-                Intent intent = new Intent(select_documents.this, send_documents.class);
+                Intent intent = new Intent(select_documents.this, document_links.class);
                 Bundle b = new Bundle();
                 b.putSerializable("documents", sentDocs);
                 intent.putExtras(b);
@@ -133,7 +133,7 @@ public class select_documents extends AppCompatActivity {
                     }
                 }
 
-                Intent intent = new Intent(select_documents.this, send_documents.class);
+                Intent intent = new Intent(select_documents.this, document_links.class);
                 Bundle b = new Bundle();
                 b.putSerializable("documents", sentDocs);
                 intent.putExtras(b);

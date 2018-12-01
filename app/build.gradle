@@ -45,6 +45,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //compile 'com.google.android.gms:play-services:12.0.1'
+    compile 'com.google.apis:google-api-services-urlshortener:v1-rev56-1.25.0'
+
 }
 apply plugin: 'com.google.gms.google-services'
