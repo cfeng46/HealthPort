@@ -37,6 +37,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +57,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class documents extends AppCompatActivity {
@@ -63,6 +66,7 @@ public class documents extends AppCompatActivity {
     private List<String> uploadList;
     private FirebaseAuth mAuth;
     private List<String> name;
+    private List<String> databse_key;
     private TextView sendText;
     private ImageView sendButton;
     private EditText search;
@@ -75,6 +79,7 @@ public class documents extends AppCompatActivity {
 
         uploadList = new ArrayList<>();
         name = new ArrayList<>();
+        databse_key = new ArrayList<>();
         listView = findViewById(R.id.list_view);
         final TextView upload = findViewById(R.id.upload);
         final ImageView addButton = findViewById(R.id.addButton);
@@ -90,12 +95,14 @@ public class documents extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
 
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 final String url = uploadList.get(i);
                 final String file_name = name.get(i);
+                final String key = databse_key.get(i);
                 final Dialog dialog = new Dialog(documents.this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 /*                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -105,6 +112,7 @@ public class documents extends AppCompatActivity {
                 ImageButton dismiss = m_view.findViewById(R.id.close);
                 TextView download = m_view.findViewById(R.id.download);
                 TextView editDoc = m_view.findViewById(R.id.editDoc);
+                TextView delete = m_view.findViewById(R.id.delete);
                 WebView wv = m_view.findViewById(R.id.view);
                 wv.setWebViewClient(new WebViewClient());
                 Log.d("tttt", "okay");
@@ -146,6 +154,14 @@ public class documents extends AppCompatActivity {
 //                        //Log.d(TAG, databaseError.getMessage());
 //                    }
 //                };
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteFile(key);
+                        dialog.dismiss();
+
+                    }
+                });
 
                 download.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -205,6 +221,7 @@ public class documents extends AppCompatActivity {
                     String urlString = postSnapshot.child("URL").getValue(String.class);
                     name.add(nameString);
                     uploadList.add(urlString);
+                    databse_key.add(postSnapshot.getKey());
                 }
 
 
@@ -311,4 +328,18 @@ public class documents extends AppCompatActivity {
         });
     }
 
+    public boolean deleteFile(String key) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
+        databaseReference.child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(documents.this, "Document is deleted.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(documents.this, documents.class));
+                }
+            }
+        });
+        return false;
+    }
 }

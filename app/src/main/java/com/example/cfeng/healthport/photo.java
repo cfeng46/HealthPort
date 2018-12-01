@@ -218,7 +218,6 @@ public class photo extends AppCompatActivity {
 
         final StorageReference ref = storage.child("Uploads").child(file_name+".pdf");
         UploadTask uploadTask = ref.putFile(contentUri);
-
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
