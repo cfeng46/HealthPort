@@ -96,16 +96,13 @@ public class photo extends AppCompatActivity {
 
         //Log.d("Pages", "d "+ data.getClipData().getItemCount() + " " + data.getClipData().getDescription());// Get count of image here.
         ClipData clip = data.getClipData();
-        final int numPages = clip.getItemCount();
-        //int x = 0;
-        for(int x = 0; x  < numPages; x++) {
-            ClipData.Item image = clip.getItemAt(x);
-            Uri imageUri = image.getUri();
+        if (clip == null) {
+            Uri imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
                 //int pageNum = pdfDoc.getPages().size() + 1;
-                PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), x).create();
+                PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 0).create();
                 PdfDocument.Page page = pdfDoc.startPage(pi);
                 Canvas canvas = page.getCanvas();
                 Paint paint = new Paint();
@@ -120,8 +117,35 @@ public class photo extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            final int numPages = clip.getItemCount();
+            for(int x = 0; x  < numPages; x++) {
+                ClipData.Item image = clip.getItemAt(x);
+                Uri imageUri = image.getUri();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
+                    //int pageNum = pdfDoc.getPages().size() + 1;
+                    PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), x).create();
+                    PdfDocument.Page page = pdfDoc.startPage(pi);
+                    Canvas canvas = page.getCanvas();
+                    Paint paint = new Paint();
+                    paint.setColor(Color.parseColor("#FFFFFF"));
+                    canvas.drawPaint(paint);
+
+                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                    paint.setColor(Color.BLUE);
+                    canvas.drawBitmap(bitmap,0,0,null);
+
+                    pdfDoc.finishPage(page);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
+        //int x = 0;
+
             /*
             ContextWrapper cw = new ContextWrapper((getApplicationContext()));
             File root = cw.getDir("profile", Context.MODE_PRIVATE);
