@@ -41,6 +41,7 @@
         <activity android:name=".exist_pdf"/>
         <activity android:name=".select_documents"/>
         <activity android:name=".send_documents"/>
+        <activity android:name=".edit_document" />
     </application>
 
 </manifest>

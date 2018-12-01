@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cfeng.healthport.Model.Contact;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class contacts_home extends AppCompatActivity {
@@ -47,13 +49,13 @@ public class contacts_home extends AppCompatActivity {
         TextView backText = findViewById(R.id.backText);
         ImageView backButton = findViewById(R.id.backArrow);
         EditText searchBar = findViewById(R.id.searchBar);
-        searchBar.requestFocus();
+        //searchBar.requestFocus();
 
         //Get all contact names
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         String user_id = mAuth.getCurrentUser().getUid();
-        DatabaseReference current_user_db = mDatabase.child(user_id).child("contacts");
+        DatabaseReference current_user_db = mDatabase.child(user_id).child("Contacts");
         current_user_db.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -103,25 +105,61 @@ public class contacts_home extends AppCompatActivity {
                 finish();
             }
         });
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String charString = charSequence.toString();
+                if (!charString.isEmpty()) {
+                    ArrayList<Contact>  newList = new ArrayList<>();
+                    for (Contact row : contactsList) {
+                        if (row.getName().toLowerCase().contains(charString)) {
+                            newList.add(row);
+                        }
+                    }
+                    mAdapter = new MyAdapter(newList);
+                    rcvListMessage.setAdapter(mAdapter);
+                } else {
+                    mAdapter = new MyAdapter(contactsList);
+                    rcvListMessage.setAdapter(mAdapter);
+                }
+            }
 
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         Log.d(TAG, "onCreate: started");
-
-
     }
-
     private void collectContactNames(Iterable<DataSnapshot> contacts) {
+        String k = null;
+        for (DataSnapshot singleContact:contacts) {
+            //Log.e("Stitie",String.valueOf(singleContact.getChildren()));
+            String x = null;
+            String y = null;
+            k = singleContact.getKey();
+            String[] item = k.split("_");
+            String o = null;
+            for (String s : item) {
+                o = s;
+            }
+            for (DataSnapshot b : singleContact.getChildren()) {
+                if (b.getKey().equals("Name")) {
+                    x = String.valueOf(b.getValue());
+                }
+                if (b.getKey().equals("Fax")) {
+                    y = String.valueOf(b.getValue());
+                }
+            }
+            contactsList.add(new Contact(x, y, o));
 
-        for (DataSnapshot singleContact: contacts){
-
-            //Get name
-            contactsList.add(new Contact((String) singleContact.getKey(), (String) singleContact.getValue()));
         }
-
-        Log.d("PRINTNAMES", contactsList.toString());
-
     }
 
 }
