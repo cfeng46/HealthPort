@@ -3,6 +3,7 @@ package com.example.cfeng.healthport;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class select_documents extends AppCompatActivity {
@@ -32,6 +34,7 @@ public class select_documents extends AppCompatActivity {
     private TextView cancelText;
     private ImageView saveButton;
     private TextView saveText;
+    private HashMap<String, String> sentDocs;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,7 @@ public class select_documents extends AppCompatActivity {
         cancelText = findViewById(R.id.cancelText);
         saveButton = findViewById(R.id.saveButton);
         saveText = findViewById(R.id.saveText);
+        sentDocs = new HashMap<>();
 
         cancelText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,13 +98,19 @@ public class select_documents extends AppCompatActivity {
                 for(int i = 0; i < checkedItems.size(); i++) {
                     int position = checkedItems.keyAt(i);
                     if(checkedItems.valueAt(i)) {
-                        selectedItems.add(adapter.getItem(position));
+                        String docName = adapter.getItem(position);
+                        String docUrl = docList.get(position);
+                        Log.d("docName", docName);
+                        Log.d("docUrl", docUrl);
+                        Log.d("docNames.get(position)", docNames.get(position));
+                        sentDocs.put(docName, docUrl);
+                        //selectedItems.add(adapter.getItem(position));
                     }
                 }
 
                 Intent intent = new Intent(select_documents.this, send_documents.class);
                 Bundle b = new Bundle();
-                b.putStringArrayList("documents", selectedItems);
+                b.putSerializable("documents", sentDocs);
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -113,13 +123,19 @@ public class select_documents extends AppCompatActivity {
                 for(int i = 0; i < checkedItems.size(); i++) {
                     int position = checkedItems.keyAt(i);
                     if(checkedItems.valueAt(i)) {
-                        selectedItems.add(adapter.getItem(position));
+                        String docName = adapter.getItem(position);
+                        String docUrl = docList.get(position);
+                        Log.d("docName", docName);
+                        Log.d("docUrl", docUrl);
+                        Log.d("docNames.get(position)", docNames.get(position));
+                        sentDocs.put(docName, docUrl);
+                        //selectedItems.add(adapter.getItem(position));
                     }
                 }
 
                 Intent intent = new Intent(select_documents.this, send_documents.class);
                 Bundle b = new Bundle();
-                b.putStringArrayList("documents", selectedItems);
+                b.putSerializable("documents", sentDocs);
                 intent.putExtras(b);
                 startActivity(intent);
             }
