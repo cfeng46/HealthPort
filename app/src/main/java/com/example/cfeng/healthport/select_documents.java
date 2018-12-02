@@ -72,10 +72,11 @@ public class select_documents extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    String value = postSnapshot.getValue(String.class);
-                    docNames.add(key);
-                    docList.add(value);
+                    //Log.e("bb",  " " + dataSnapshot.getChildrenCount());
+                    String nameString = postSnapshot.child("DocName").getValue(String.class);
+                    String urlString = postSnapshot.child("URL").getValue(String.class);
+                    docNames.add(nameString);
+                    docList.add(urlString);
                 }
 
 

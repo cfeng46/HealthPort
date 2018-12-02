@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -36,11 +37,16 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,7 +57,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class documents extends AppCompatActivity {
@@ -61,6 +66,7 @@ public class documents extends AppCompatActivity {
     private List<String> uploadList;
     private FirebaseAuth mAuth;
     private List<String> name;
+    private List<String> databse_key;
     private TextView sendText;
     private ImageView sendButton;
     private EditText search;
@@ -73,6 +79,7 @@ public class documents extends AppCompatActivity {
 
         uploadList = new ArrayList<>();
         name = new ArrayList<>();
+        databse_key = new ArrayList<>();
         listView = findViewById(R.id.list_view);
         final TextView upload = findViewById(R.id.upload);
         final ImageView addButton = findViewById(R.id.addButton);
@@ -85,20 +92,30 @@ public class documents extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String uid = mAuth.getCurrentUser().getUid();
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 final String url = uploadList.get(i);
                 final String file_name = name.get(i);
-                final Dialog dialog = new Dialog(documents.this);
+                final String key = databse_key.get(i);
+                final Dialog dialog = new Dialog(documents.this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+/*                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
                 LayoutInflater m_inflater = LayoutInflater.from(documents.this);
                 View m_view = m_inflater.inflate(R.layout.pdf_viewer, null);
-                Button dismiss = m_view.findViewById(R.id.close);
-                Button download = m_view.findViewById(R.id.download);
+                ImageButton dismiss = m_view.findViewById(R.id.close);
+                TextView download = m_view.findViewById(R.id.download);
+                TextView editDoc = m_view.findViewById(R.id.editDoc);
+                TextView delete = m_view.findViewById(R.id.delete);
                 WebView wv = m_view.findViewById(R.id.view);
                 wv.setWebViewClient(new WebViewClient());
+                Log.d("tttt", "okay");
                 try {
                     String encode_url = URLEncoder.encode(url, "UTF-8");
                     wv.loadUrl("http://docs.google.com/gview?embedded=true&url="+ encode_url);
@@ -121,6 +138,31 @@ public class documents extends AppCompatActivity {
                 wv.getSettings().setLoadWithOverviewMode(true);
                 wv.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
+//                final DatabaseReference documents = database.child(uid).child("profile");
+
+//                {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+//                            String key = ds.getKey();
+//                            Log.d("beep", key);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        //Log.d(TAG, databaseError.getMessage());
+//                    }
+//                };
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteFile(key);
+                        dialog.dismiss();
+
+                    }
+                });
+
                 download.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -134,6 +176,34 @@ public class documents extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+                editDoc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final Intent intent = new Intent(documents.this, edit_document.class);
+                        Log.d("tttt", "ok");
+                        Query query = databaseReference.orderByChild("DocName").equalTo(file_name);
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    String key = ds.getKey();
+                                    Log.d("ttttohno", key);
+                                    intent.putExtra("doc_id", key);
+                                    dialog.dismiss();
+                                    startActivity(intent);
+                                }
+                            }
+    //
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.d("ohno", databaseError.getMessage());
+                            }
+                        });
+//                        dialog.dismiss();
+//                        startActivity(intent);
+                    }
+                });
+
                 dialog.setContentView(m_view);
                 dialog.show();
             }
@@ -142,15 +212,16 @@ public class documents extends AppCompatActivity {
 
         });
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    String value = postSnapshot.getValue(String.class);
-                    name.add(key);
-                    uploadList.add(value);
+                    //Log.e("bb",  " " + dataSnapshot.getChildrenCount());
+                    String nameString = postSnapshot.child("DocName").getValue(String.class);
+                    String urlString = postSnapshot.child("URL").getValue(String.class);
+                    name.add(nameString);
+                    uploadList.add(urlString);
+                    databse_key.add(postSnapshot.getKey());
                 }
 
 
@@ -163,6 +234,18 @@ public class documents extends AppCompatActivity {
 
             }
         });
+
+//        currentUserDocs.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                // get total available quest
+//                Log.e("bb",  " " + dataSnapshot.getChildrenCount());
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,4 +328,18 @@ public class documents extends AppCompatActivity {
         });
     }
 
+    public boolean deleteFile(String key) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("profile");
+        databaseReference.child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(documents.this, "Document is deleted.", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(documents.this, documents.class));
+                }
+            }
+        });
+        return false;
+    }
 }

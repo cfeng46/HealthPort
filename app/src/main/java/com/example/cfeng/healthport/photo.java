@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,8 +32,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -90,18 +94,15 @@ public class photo extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("Pages", "d "+ data.getClipData().getItemCount() + " " + data.getClipData().getDescription());// Get count of image here.
+        //Log.d("Pages", "d "+ data.getClipData().getItemCount() + " " + data.getClipData().getDescription());// Get count of image here.
         ClipData clip = data.getClipData();
-        final int numPages = clip.getItemCount();
-        //int x = 0;
-        for(int x = 0; x  < numPages; x++) {
-            ClipData.Item image = clip.getItemAt(x);
-            Uri imageUri = image.getUri();
+        if (clip == null) {
+            Uri imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
                 //int pageNum = pdfDoc.getPages().size() + 1;
-                PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), x).create();
+                PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), 0).create();
                 PdfDocument.Page page = pdfDoc.startPage(pi);
                 Canvas canvas = page.getCanvas();
                 Paint paint = new Paint();
@@ -116,8 +117,35 @@ public class photo extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            final int numPages = clip.getItemCount();
+            for(int x = 0; x  < numPages; x++) {
+                ClipData.Item image = clip.getItemAt(x);
+                Uri imageUri = image.getUri();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
 
+                    //int pageNum = pdfDoc.getPages().size() + 1;
+                    PdfDocument.PageInfo pi = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), bitmap.getHeight(), x).create();
+                    PdfDocument.Page page = pdfDoc.startPage(pi);
+                    Canvas canvas = page.getCanvas();
+                    Paint paint = new Paint();
+                    paint.setColor(Color.parseColor("#FFFFFF"));
+                    canvas.drawPaint(paint);
+
+                    bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+                    paint.setColor(Color.BLUE);
+                    canvas.drawBitmap(bitmap,0,0,null);
+
+                    pdfDoc.finishPage(page);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
+        //int x = 0;
+
             /*
             ContextWrapper cw = new ContextWrapper((getApplicationContext()));
             File root = cw.getDir("profile", Context.MODE_PRIVATE);
@@ -138,11 +166,7 @@ public class photo extends AppCompatActivity {
             }
             pdfDoc.close();
             Uri contentUri = Uri.fromFile(file);
-            /*if (!name.getText().toString().isEmpty()) {
-                upload(contentUri, name.getText().toString());
-            } else {
-                Toast.makeText(photo.this, "Missing information", Toast.LENGTH_SHORT).show();
-            }*/
+
             upload(contentUri);
         }
 
@@ -152,8 +176,11 @@ public class photo extends AppCompatActivity {
         dialog.setContentView(R.layout.confirmation_page);
         ImageView green_check = dialog.findViewById(R.id.yes);
         ImageView cancel_cross = dialog.findViewById(R.id.no);
-//                    final EditText profile_name = dialog.findViewById(R.id.profile_name);
         final EditText file_name = dialog.findViewById(R.id.file_name);
+
+        DatabaseReference currentUserDocs = null;
+
+
         green_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,9 +214,10 @@ public class photo extends AppCompatActivity {
         progressDialog.show();
         //final String fileName = System.currentTimeMillis() + "";
         final String uid = mAuth.getCurrentUser().getUid();
+        final DatabaseReference documents = database.child(uid).child("profile");
+
         final StorageReference ref = storage.child("Uploads").child(file_name+".pdf");
         UploadTask uploadTask = ref.putFile(contentUri);
-
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -221,20 +249,48 @@ public class photo extends AppCompatActivity {
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
                     Uri  downloadUri = task.getResult();
-                    String url = downloadUri.toString();
+                    final String url = downloadUri.toString();
                     Map report = new HashMap();
                     report.put(file_name, url);
-                    database.child(uid).child("profile").updateChildren(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    DatabaseReference addDoc = documents.push();
+                    addDoc.child("DocName").setValue(file_name);
+                    addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(photo.this, "File successfully uploaded", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(photo.this, "File Uploaded", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(photo.this, documents.class));
                             } else {
                                 Toast.makeText(photo.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+
+//                    documents.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                            DatabaseReference addDoc = documents.child("doc_"+dataSnapshot.getChildrenCount());
+//                            addDoc.child("DocName").setValue(file_name);
+//                            addDoc.child("URL").setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(photo.this, "File Uploaded", Toast.LENGTH_SHORT).show();
+//                                        startActivity(new Intent(photo.this, documents.class));
+//                                        finish();
+//                                    } else {
+//                                        Toast.makeText(photo.this, "File not successfully uploaded", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
                 }
             }
         });
