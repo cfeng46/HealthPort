@@ -38,13 +38,21 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/trashcan"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/delete" />
     <TextView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="delete"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:text="Delete"
         android:textSize="18sp"
         android:textStyle="bold" />
 
