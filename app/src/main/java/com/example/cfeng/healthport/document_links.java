@@ -17,10 +17,12 @@ import java.util.Map;
 public class document_links extends AppCompatActivity {
 
     private Map<String, String> documents;
-    private ArrayList<Map<String, String>> doclist;
+    private ArrayList<Map<String, String>> docList;
     private ImageView backArrow;
     private TextView backText;
     private ListView linkList;
+    private ImageView checkMark;
+    private TextView doneText;
     private SimpleAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +31,14 @@ public class document_links extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         documents = (HashMap<String, String>) b.getSerializable("documents");
+        docList = new ArrayList<Map<String,String>>();
 
 
         backArrow = findViewById(R.id.backArrow);
         backText = findViewById(R.id.backText);
         linkList = findViewById(R.id.link_list);
+        checkMark = findViewById(R.id.checkMark);
+        doneText = findViewById(R.id.doneText);
 
 
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -49,14 +54,27 @@ public class document_links extends AppCompatActivity {
             }
         });
 
+        checkMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(document_links.this, documents.class));
+            }
+        });
+        doneText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(document_links.this, documents.class));
+            }
+        });
+
         for (String name : documents.keySet()) {
             Map<String, String> pair = new HashMap<String, String>(2);
             pair.put("name", name);
             pair.put("url", documents.get(name));
-            doclist.add(pair);
+            docList.add(pair);
         }
 
-        adapter = new SimpleAdapter(this, doclist,
+        adapter = new SimpleAdapter(this, docList,
                 android.R.layout.simple_list_item_2,
                 new String[] {"name", "url"},
                 new int[] {android.R.id.text1,

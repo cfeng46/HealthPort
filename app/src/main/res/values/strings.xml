@@ -38,5 +38,6 @@
     <string name="upload">Add a Document</string>
     <string name="add_page">Add more pages?</string>
     <string name="inbox">Inbox</string>
+    <string name="finish">Done</string>
 
 </resources>

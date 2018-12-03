@@ -42,6 +42,7 @@
         <activity android:name=".select_documents"/>
         <activity android:name=".send_documents"/>
         <activity android:name=".edit_document" />
+        <activity android:name=".document_links"/>
     </application>
 
 </manifest>

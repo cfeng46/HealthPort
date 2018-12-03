@@ -51,10 +51,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title"
+        android:layout_above="@+id/done_line"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp">
 
     </ListView>
+
+    <LinearLayout
+        android:id="@+id/done_line"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:id="@+id/checkMark"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/green_check" />
+
+        <TextView
+            android:id="@+id/doneText"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/saveButton"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/finish"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
 
 
 
