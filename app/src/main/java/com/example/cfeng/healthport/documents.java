@@ -306,7 +306,7 @@ public class documents extends AppCompatActivity {
 
     private void downloadFile(String file_name) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        final StorageReference storageReference = firebaseStorage.getReferenceFromUrl("gs://healthport-7d48b.appspot.com");
+        final StorageReference storageReference = firebaseStorage.getReferenceFromUrl("gs://healthport-146f7.appspot.com");
         StorageReference childReference = storageReference.child("Uploads");
         StorageReference file = childReference.child(file_name+".pdf");
         File rootPath = new File(Environment.getExternalStorageDirectory(), "PDF Folder");

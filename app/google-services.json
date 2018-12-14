@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "431392816861",
+    "firebase_url": "https://healthport-146f7.firebaseio.com",
+    "project_id": "healthport-146f7",
+    "storage_bucket": "healthport-146f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431392816861:android:c02336f4171aac4f",
+        "android_client_info": {
+          "package_name": "com.example.cfeng.healthport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431392816861-pkd9i38vkqf87o3hl1jn86lm88anpdj7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cfeng.healthport",
+            "certificate_hash": "9deeb8e2d2fd29a685a081a895a796a14d97a031"
+          }
+        },
+        {
+          "client_id": "431392816861-fcg1aqjuh55rq7gq8r1jl37o4aas3hb9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCJmmusT4eJnEJXyR71TzK-alBC7Oo8F8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431392816861-fcg1aqjuh55rq7gq8r1jl37o4aas3hb9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
